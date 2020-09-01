@@ -1,0 +1,54 @@
+{% extends 'Layout.htm' %}
+{% block conteudo %}
+<form method="POST">
+    {% for dados in Cliente %}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">* Nome</label>
+        <input name="nome" type="text" class="form-control" id="inputEmail4" placeholder="Nome do Cliente" value='{{dados[1]}}'>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">* Sobrenome</label>
+        <input  name="sobrenome" type="text" class="form-control" id="inputPassword4" placeholder="Sobrenome do Cliente" value='{{dados[2]}}'>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">E-mail</label>
+      <input name="email" type="text" class="form-control" id="inputAddress" placeholder="E-mail do Cliente" value='{{dados[3]}}'>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="inputAddress2">Endereço </label>
+        <input name="endereco" type="text" class="form-control" id="inputAddress2" placeholder="Av, Rua e etc." value='{{dados[4]}}'>
+      </div>
+      <div class="form-group col-md-1">
+        <label for=inputNumber>N°</label>
+        <input name="numero" type="text" class="form-control" id="inputAddress2" placeholder="Ex:.14" value='{{dados[5]}}'>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputComplement">Complemento</label>
+        <input name="complemento" type="text" class="form-control" id="inputAddress2" placeholder="Lote, Vila e etc." value='{{dados[6]}}'>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputCity">Cidade</label>
+        <input name="cidade" type="text" class="form-control" id="inputCity" placeholder="São Paulo, Osasco, Guarulhos e etc." value='{{dados[7]}}'>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputEstado">Estado</label>
+        <select name="estado" id="inputEstado" class="form-control">
+          <option selected value="value='{{dados[8]}}'">Escolher...</option>
+          <option value="">São Paulo</option>
+        </select>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputCEP">CEP</label>
+        <input name="cep" type="text" class="form-control" id="inputCEP">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+  </form>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>Barbeware - {{titulo}}</title>
+</head>
+
+<body style="background-color: black;">
+    <div class="row">
+        <div class="col-sm-8">
+            <img src="{{url_for('static', filename='img/Barbeiro.jpg')}}" width="905px" height="640">
+        </div>
+        <div class="col-sm-4">
+            <div class=img style="text-align: center; margin-top: 0.5cm;">
+                <img src="{{url_for('static', filename='img/Logo.png')}}">
+                <hr/>
+            </div>
+            <div>
+                <h3 style="text-align: center; color: aliceblue;">Login</h3>
+            </div>
+            <form method="POST">
+                <div class="form-group" style="color: aliceblue;">
+                  <label for="exampleInputEmail1">E-mail</label>
+                  <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" value={{email}}>
+                </div>
+                <div class="form-group" style="color: aliceblue;">
+                  <label for="exampleInputPassword1">Senha</label>
+                  <input name="senha" type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+                </div>
+                <div style="text-align: center; color: red;">
+                  {{mensagem}}
+                </div>
+                <div class="form-check" style="color: aliceblue;">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label" for="exampleCheck1">Lembre-me</label>
+                </div>
+                <button type="submit" class="btn btn-secondary">Entrar</button>
+              </form>
+                <hr/>
+            </div>
+        </div>
+    </div>
+            
+
+</body>
+
+</html>

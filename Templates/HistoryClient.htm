@@ -1,0 +1,31 @@
+{% extends "Layout.htm" %}
+{% block conteudo %}
+
+<table class="table">
+    <thead class="thead-dark" style="text-align: center;">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Sobrenome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Endereço</th>
+        <th scope="col">N°</th>
+        <th scope="col">Editar</th>
+      </tr>
+    </thead>
+    <tbody style="text-align: center;">
+      {% for Cliente in Clientes %}
+      <tr>
+        <td>{{Cliente[0]}}</td>
+        <td>{{Cliente[1]}}</td>
+        <td>{{Cliente[2]}}</td>
+        <td>{{Cliente[3]}}</td>
+        <td>{{Cliente[4]}}</td>
+        <td>{{Cliente[5]}}</td>
+        <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button  class="btn btn-dark">Editar</button></a>
+          <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button type="button" class="btn btn-danger">Excluir</button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock conteudo %}
