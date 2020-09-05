@@ -1,5 +1,4 @@
-from Models.Client import Cliente
+from Models.Usuarios import Usuario
 import sqlite3
 
-for i in Cliente.LocalizarClienteEmail("kaique_lelis@hotmail.com"):
-    print(i[1])
+Usuario.CadastrarUsuario("Kaique", "Lelis Moura", "kaique_lelis@hotmail.com", "140619")

@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, session
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
 
 app = Flask(__name__)
+
+app.secret_key = 'a1b2c3' 
 
 nome = None
 
 @app.route("/")
 @app.route("/Login")
 def IndexLogin():
+    session['usuario_logado'] = None
     return render_template("Login.htm", titulo="Login")
 
 @app.route("/", methods=["POST"])
@@ -19,7 +22,8 @@ def EnterLogin():
     if email != "" and senha != "":
         for usuario in  Usuario.ValidarUsuario(str(email), str(senha)):
             if usuario:
-                for nomes in Cliente.LocalizarClienteEmail(str(email)):
+                session['usuario_logado'] = request.form['email']
+                for nomes in Usuario.PesquisarUsuarioEmail(str(email)):
                     global nome
                     nome = nomes[1]
                 return redirect(url_for("HomeIndex"))
@@ -28,6 +32,8 @@ def EnterLogin():
 
 @app.route("/Login/Home")
 def HomeIndex():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('IndexLogin'))
     return render_template("Home.htm", titulo="Home Page", usuario=nome)
 
 @app.route("/Login/Cadastro")
@@ -81,19 +87,27 @@ def AlterClient(id):
 
 
 @app.route("/Login/CadastrarUsuario")
-def ViewUsuario():
-    return render_template("ViewUser.htm", titulo="Cadastrar Usuario", usuario=nome)
+def ViewUser():
+    return render_template("ViewUser.htm", titulo="Cadastrar Barbeiro", usuario=nome)
 
 @app.route("/Login/CadastrarUsuario", methods=['POST'])
 def CreateUser():
-    nome = request.form['nome']
+    nome1 = request.form['nome']
     sobrenome = request.form['sobrenome']
-    datanascimento = request.form['datanascimento']
     email = request.form['email']
     senha = request.form['senha']
-    Usuario.CadastrarUsuario(nome, sobrenome, datanascimento, email, senha)
-    return redirect(url_for("ViewUsuario"))
+    global nome
+    if senha == request.form['senha2']:
+        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha)
+        return redirect(url_for("ViewUser"))
+    return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro")
 
+
+@app.route("/Exit")
+def Exit():
+    global nome
+    nome = None
+    return redirect(url_for("IndexLogin"))
 
 
 if __name__ == "__main__":
