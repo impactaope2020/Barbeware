@@ -110,5 +110,10 @@ def Exit():
     return redirect(url_for("IndexLogin"))
 
 
+@app.route("/Login/Agenda")
+def Schendule():
+    return render_template("Schendule.htm", titulo="Agenda", usuario=nome)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
