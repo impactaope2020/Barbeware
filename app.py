@@ -111,8 +111,13 @@ def Exit():
 
 
 @app.route("/Login/Agenda")
-def Schendule():
-    return render_template("Schendule.htm", titulo="Agenda", usuario=nome)
+def Schedule():
+    return render_template("Schedule.htm", titulo="Agenda", usuario=nome)
+
+@app.route("/Login/Agenda/Agendamento")
+def Scheduling():
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome)
+
 
 
 if __name__ == "__main__":
