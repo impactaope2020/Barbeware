@@ -13,7 +13,6 @@
     <table class="table">
         <thead class="thead-dark" style="text-align: center;">
         <tr>
-            <th scope="col">id</th>
             <th scope="col">Nome</th>
             <th scope="col">Sobrenome</th>
             <th scope="col">Email</th>
@@ -22,13 +21,15 @@
         </tr>
         </thead>
         <tbody style="text-align: center;">
+            {% for horario in horarios %}
         <tr>
-            <td>1</td>
             <td>---</td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>{{horario[0][10:]}}</td>
             <td><img src="{{ url_for('static', filename='Icones/svg/pencil.svg') }}"></td>
+        </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
