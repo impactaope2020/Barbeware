@@ -1,4 +1,4 @@
-from Models.Usuarios import Usuario
+from Models.Agenda import Agenda
 import sqlite3
 
-Usuario.CadastrarUsuario("Kaique", "Lelis Moura", "kaique_lelis@hotmail.com", "140619")
+print(Agenda.ConfigAgenda("8:20", "16:00", 50))
