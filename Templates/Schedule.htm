@@ -1,10 +1,14 @@
 {% extends 'Layout.htm' %}
 {% block  conteudo %}
-<div>
-    <h2>Filtrar Agendamentos</h2>
-    <p><input id="date" type="date" value="14/09/2020">
-    <a href="{{url_for('Scheduling')}}"  ><button class="btn btn-success">Agendar Cliente</button></p></a>
-</div>
+<div class="row">
+    <div class="col-md-8">
+        <h2>Filtrar Agendamentos</h2>
+    </div>
+    <div class="col-md">
+        <p><input style="margin-top: 0.2cm;" id="date" type="date" value="14/09/2020">
+            <a href="{{url_for('Scheduling')}}"  ><button class="btn btn-success">Pesquisar</button></p></a>
+        </div>
+    </div>
 <div>
     <table class="table">
         <thead class="thead-dark" style="text-align: center;">
@@ -13,19 +17,18 @@
             <th scope="col">Nome</th>
             <th scope="col">Sobrenome</th>
             <th scope="col">Email</th>
-            <th scope="col">Endereço</th>
-            <th scope="col">N°</th>
-            <th scope="col">Editar</th>
+            <th scope="col">Horario</th>
+            <th scope="col">Agendar Cliente</th>
         </tr>
         </thead>
         <tbody style="text-align: center;">
         <tr>
+            <td>1</td>
+            <td>---</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>8H00</td>
+            <td><img src="{{ url_for('static', filename='Icones/svg/pencil.svg') }}"></td>
         </tbody>
     </table>
 </div>

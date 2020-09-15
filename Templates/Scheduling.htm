@@ -1,6 +1,32 @@
 {% extends "Layout.htm" %}
 {% block conteudo %}
 
-<a href="">teste</a>
+<div class="container-fluid">
+    <form method="POST">    
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="">Clientes</label>
+                <select class="form-control">
+                    <option>Default select</option>
+                  </select>
+            </div>
+            <div class="col-md-2">
+                <label for="">Barbeiro</label>
+                <select class="form-control">
+                    <option>Default select</option>
+                  </select>
+            </div>
+            <div class="col-md-3">
+                <label for="">Serviço</label>
+                <select class="form-control">
+                    <option>Default select</option>
+                  </select>
+            </div>
+            <div>
+                <input type="datetime-local">
+            </div>
+        </div>
+    </form>
+</div>
 
 {%  endblock conteudo %}
