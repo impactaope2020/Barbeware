@@ -21,7 +21,9 @@ class Agenda:
     def ConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte):
         horario_funcionamento = datetime.strptime(horario_funcionamento, "%H:%M")
         horario_fechamento = datetime.strptime(horario_fechamento, "%H:%M")
+
         config = [str(horario_funcionamento)[11:]]
+        
         while horario_funcionamento < horario_fechamento and horario_funcionamento + timedelta(minutes=tempo_corte) < horario_fechamento:
             soma_horas = horario_funcionamento + timedelta(minutes=tempo_corte)
             horario_funcionamento = horario_funcionamento + timedelta(minutes=tempo_corte)
