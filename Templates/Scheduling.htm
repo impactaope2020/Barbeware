@@ -6,24 +6,36 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="">Clientes</label>
-                <select class="form-control">
-                    <option>Default select</option>
-                  </select>
-            </div>
-            <div class="col-md-2">
-                <label for="">Barbeiro</label>
-                <select class="form-control">
-                    <option>Default select</option>
+                
+                <select class="form-control" name="cliente">
+                    {% for cliente in clientes %}
+                    <option>{{cliente[1]+ " "+ cliente[2]}}</option>
+                {% endfor %}
                   </select>
             </div>
             <div class="col-md-3">
-                <label for="">Serviço</label>
-                <select class="form-control">
-                    <option>Default select</option>
+                <label for="">Barbeiro</label>
+                <select class="form-control" name="barbeiro">
+                {% for barbeiro in barbeiros  %}
+                    <option>{{barbeiro[1] + " " + barbeiro[2]}}</option>
+                {% endfor %}
                   </select>
             </div>
-            <div>
-                <input type="datetime-local">
+            <div class="col-md-3"> 
+                <label for="">Dias Disponiveis</label>
+                <input type="date" name="dia" class="form-control">
+            </div>
+            <div class="col-md-2">
+                
+                <label for="">Horarios Disponiveis</label>
+                <select class="form-control" name="hora">
+                    {% for horario in horarios %}
+                    <option>{{horario[0][11:]}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button  type="submit" style="margin-top: 0.85cm;" class="btn btn-success">Agendar!</button>
             </div>
         </div>
     </form>

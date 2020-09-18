@@ -28,6 +28,11 @@ class Usuario:
         with sqlite3.connect('Usuario.db') as conn:
             cursor = conn.cursor()
             return cursor.execute("select * from Usuario where email = ?", (email,))
+
+    def RetornarUsuarios():
+        with sqlite3.connect('Usuario.db') as conn:
+            cursor = conn.cursor()
+            return cursor.execute("select * from Usuario")
             
 
     

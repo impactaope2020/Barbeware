@@ -21,7 +21,7 @@ class Cliente:
             cursor = conn.cursor()
             cursor.execute(""" insert into Cliente (nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
                                         values (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep))
-            conn.commit()
+            
     
     def RetornarClientes():
         with sqlite3.connect("Cliente.db") as conn:
@@ -32,7 +32,7 @@ class Cliente:
         with sqlite3.connect("Cliente.db") as conn:
             cursor = conn.cursor()
             cursor.execute("Delete from Cliente where id = ? ", (id, ))
-            conn.commit()
+            
         
     def LocalizarCliente(id):
         with sqlite3.connect("Cliente.db") as conn:

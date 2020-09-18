@@ -28,7 +28,7 @@ def EnterLogin():
                 for nomes in Usuario.PesquisarUsuarioEmail(str(email)):
                     global nome
                     nome = nomes[1]
-                return redirect(url_for("HomeIndex"))
+                return redirect(url_for("Scheduling"))
     return render_template("Login.htm", email=email, mensagem="E-mail ou Senha Invalidos!", titulo="Login")
         
 
@@ -113,13 +113,28 @@ def Exit():
 
 
 @app.route("/Login/Agenda")
-def Schedule():
-    return render_template("Schedule.htm", titulo="Agenda", usuario=nome, horarios=ConfigAgenda.RetornarHorarios() )
+def HistoricScheduling():
+    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos())
 
-@app.route("/Login/Agenda/Agendamento")
+@app.route("/Login/Agenda/<id>")
+def RemoveScheduling(id):
+    Agenda.RemoveAgendamento(id)
+    return redirect(url_for("HistoricScheduling"))
+
+
+@app.route("/Login/Agendamento")
 def Scheduling():
-    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome)
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, horarios=ConfigAgenda.RetornarHorarios(), clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios())
 
+@app.route("/Login/Agendamento", methods=["POST"])
+def CreateScheduling():
+    cliente = request.form['cliente']
+    barbeiro = request.form['barbeiro']
+    data = request.form['dia']
+    horario = request.form['hora']
+    data_hora = str(data) + " " + str(horario)
+    Agenda.Agendamento(str(cliente), str(barbeiro), data_hora )
+    return redirect(url_for("CreateScheduling"))
 
 @app.route("/Login/Configurar Agenda")
 def ConfigScheduling():
@@ -129,8 +144,10 @@ def ConfigScheduling():
 def ConfigSchedulingPost():
     horario_funcionamento = request.form['inicio_expediente']
     horario_fechamento = request.form['final_expendiente']
-    tempo_corte = request.form['tempo_corte'][3:]
+    tempo_corte = request.form['tempo_corte']
+
     ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
+    
     return redirect(url_for('ConfigScheduling'))
 
 if __name__ == "__main__":

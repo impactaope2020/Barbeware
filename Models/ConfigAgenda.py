@@ -29,9 +29,12 @@ class ConfigAgenda:
     def ConfigHorarioAgenda(horario_funcionamento, horario_fechamento, tempo_corte):
         if horario_fechamento == "" or  horario_fechamento == "" or tempo_corte == "":
             return "Todos os Campos são obrigatorios"
+        
 
         horario_funcionamento = datetime.strptime(horario_funcionamento, "%H:%M")
         horario_fechamento = datetime.strptime(horario_fechamento, "%H:%M")
+
+
         
         ConfigAgenda.ExcluirConfigAgenda()
         ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte)
@@ -40,6 +43,7 @@ class ConfigAgenda:
             soma_horas = horario_funcionamento + timedelta(minutes=tempo_corte)
             horario_funcionamento = horario_funcionamento + timedelta(minutes=tempo_corte)
             ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte)
+            
         
         
     
