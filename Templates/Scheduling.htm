@@ -23,11 +23,12 @@
             </div>
             <div class="col-md-3"> 
                 <label for="">Dias Disponiveis</label>
-                <input type="date" name="dia" class="form-control">
+                <input type="date" name="dia" value='2020-09-18' class="form-control">
             </div>
             <div class="col-md-2">
                 
                 <label for="">Horarios Disponiveis</label>
+
                 <select class="form-control" name="hora">
                     {% for horario in horarios %}
                     <option>{{horario[0][11:]}}</option>
