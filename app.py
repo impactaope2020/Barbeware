@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
+from Models.Agenda import Agenda
+from Models.ConfigAgenda import ConfigAgenda
 
 app = Flask(__name__)
 
@@ -109,6 +111,27 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
+
+@app.route("/Login/Agenda")
+def Schedule():
+    return render_template("Schedule.htm", titulo="Agenda", usuario=nome, horarios=ConfigAgenda.RetornarHorarios() )
+
+@app.route("/Login/Agenda/Agendamento")
+def Scheduling():
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome)
+
+
+@app.route("/Login/Configurar Agenda")
+def ConfigScheduling():
+    return render_template("ConfigScheduling.htm", titulo="Configurar Agendamento", usuario=nome)
+
+@app.route("/Login/Configurar Agenda", methods=['POST'])
+def ConfigSchedulingPost():
+    horario_funcionamento = request.form['inicio_expediente']
+    horario_fechamento = request.form['final_expendiente']
+    tempo_corte = request.form['tempo_corte'][3:]
+    ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
+    return redirect(url_for('ConfigScheduling'))
 
 if __name__ == "__main__":
     app.run(debug=True)
