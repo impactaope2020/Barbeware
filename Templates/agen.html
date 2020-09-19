@@ -1,0 +1,57 @@
+{% extends "Layout.htm" %}
+{% block conteudo %}
+
+    
+<div class="container">
+    <div style="margin-top: 50px;" class=" row justify-content-center">
+        <h3>AGENDAMENTO</h3> 
+    </div>
+    <div style="background-color: rgba(114, 114, 114, 0.164);" class="well">
+
+        <h3 style="margin-top: 40px;;">Nome Cliente</h3>
+    <form style="margin-top: 5px;">
+        <div  class="form-row">
+          <div class="col-md-4">
+    
+            <input type="text" class="form-control" placeholder="Nome Cliente">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Sobrenome Cliente">
+          </div>
+        </div>
+      </form>
+
+
+
+      <h3 style="margin-top: 30px;">Nome Barbeiro</h3>
+      <form style="margin-top: 5px;">
+          <div  class="form-row">
+            <div class="col-md-4">
+      
+              <input type="text" class="form-control" placeholder="Nome Barbeiro">
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Sobrenome Barbeiro">
+            </div>
+          </div>
+        </form>
+
+
+        <label style="margin-top: 50px;" for="appt"><label>Escolha a data e a hora para o corte:</label></label>
+
+       
+        <input id="date" type="date">
+        <input type="time" id="appt" name="appt">   
+       
+        <div style="margin-top: 45px;">
+                
+
+            <button type="button" class="btn btn-secondary btn-lg btn-block">Cadastrar</button>
+
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock conteudo %}

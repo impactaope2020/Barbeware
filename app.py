@@ -109,6 +109,9 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
+@app.route('/Agendamento')
+def Agendamento():
+    return render_template("agen.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
