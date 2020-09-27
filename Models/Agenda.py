@@ -4,7 +4,6 @@ class Agenda:
     with sqlite3.connect("Agenda.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists Agenda(
-<<<<<<< HEAD
             id integer primary key autoincrement,
             agenda_codcliente integer not null,
             agenda_codbarbeiro integer not null,
@@ -33,12 +32,7 @@ class Agenda:
         with sqlite3.connect("Agenda.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Agenda where agenda_codbarbeiro = ? and agenda_data = ?", (barbeiro, data))
-=======
-                            id integer primary key autoincrement not null,
-                            agenda_codcliente integer key not null,
-                            agenda_codbarbeiro integer not null,
-                            agenda_data date not null,
-                            agenda_horario time not null)""")
+                            
         
     def  AgendarCliente(agenda_codcliente,  agenda_codbarbeiro, agenda_data,  agenda_horario):
         with sqlite3.connect("Agenda.db") as conn:
@@ -62,4 +56,3 @@ class Agenda:
             cursor = conn.cursor()
             cursor.execute(""" Update Agenda set agenda_data = ?, agenda_horario = ?
                                                 where id = ? """, (agenda_codcliente, agenda_codbarbeiro, agenda_data, agenda_horario, id))
->>>>>>> a4e4c3ead09dc3c1e120c2072df9afe9b3639255
