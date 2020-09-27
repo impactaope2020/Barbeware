@@ -22,17 +22,20 @@
         <form method="POST">
             <tbody style="text-align: center;">
                 {% for agendamentos in agenda %}
+                {% for nome_barbeiro in barbeiro.RetornarBarbeiroId(agendamentos[2]) %}
+                {% for nome_cliente in cliente.RetornarClienteId(agendamentos[1]) %}
             <tr> 
-                <td>{{agendamentos[1]}}</td>
+                <td>{{nome_cliente[0] + " " + nome_cliente[1]}}</td>
+                
+                <td>{{nome_barbeiro[0] + " " + nome_barbeiro[1]}}</td>
 
-                <td>{{agendamentos[2]}}</td>
-
-                <td>{{agendamentos[3]}}</td>
+                <td>{{agendamentos[3]+ " " + agendamentos[4]}}</td>
 
                 <td><a href="{{url_for('RemoveScheduling', id=agendamentos[0])}}"><button type="button" class="btn btn-danger" >X</button></a></td>
             </tr>
             {% endfor %}
-             
+            {% endfor %}
+            {% endfor %}
             
             </tbody> 
         </form>

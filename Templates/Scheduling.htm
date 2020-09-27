@@ -7,32 +7,31 @@
             <div class="form-group col-md-3">
                 <label for="">Clientes</label>
                 
-                <select class="form-control" name="cliente">
+                <select class="form-control" name="cliente" >
                     {% for cliente in clientes %}
-                    <option>{{cliente[1]+ " "+ cliente[2]}}</option>
+                    <option value={{cliente[0]}}>{{cliente[1]+ " "+ cliente[2]}}</option>
                 {% endfor %}
                   </select>
             </div>
             <div class="col-md-3">
                 <label for="">Barbeiro</label>
-                <select class="form-control" name="barbeiro">
-                {% for barbeiro in barbeiros  %}
-                    <option>{{barbeiro[1] + " " + barbeiro[2]}}</option>
+                <select class="form-control" name="barbeiro" id="barbeiro">
+                
+                    <option selected="selected">Selecione um barbeiro</option>
+                    {% for barbeiro in barbeiros  %}
+                    <option value={{barbeiro[0]}}>{{barbeiro[1] + " " + barbeiro[2]}}</option>
                 {% endfor %}
                   </select>
             </div>
             <div class="col-md-3"> 
                 <label for="">Dias Disponiveis</label>
-                <input type="date" name="dia" value='2020-09-18' class="form-control">
+                <input type="date"  value='2020-09-18' class="form-control" id="data" name="data">
             </div>
             <div class="col-md-2">
                 
                 <label for="">Horarios Disponiveis</label>
 
-                <select class="form-control" name="hora">
-                    {% for horario in horarios %}
-                    <option>{{horario[0][11:]}}</option>
-                {% endfor %}
+                <select class="form-control" name="hora" id="hora">
                 </select>
             </div>
             <div class="col-md-1">
@@ -41,5 +40,5 @@
         </div>
     </form>
 </div>
-
+<script src="{{url_for('static', filename='js/agenda.js')}}"></script>
 {%  endblock conteudo %}

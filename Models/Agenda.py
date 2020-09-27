@@ -6,16 +6,18 @@ class Agenda:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists Agenda(
             id integer primary key autoincrement,
-            nome_cliente varchar(20),
-            barbeiro varchar(20),
-            horario_marcado varchar(20)
+            agenda_codcliente integer not null,
+            agenda_codbarbeiro integer not null,
+            agenda_data varchar(20) not null,
+            agenda_horarios varchar(20) not null,
+            agenda_config integer not null
         )""")
     
-    def Agendamento(nome_cliente, barbeiro, horario_marcado):
+    def Agendamento(agenda_codcliente, agenda_codbarbeiro, agenda_data, agenda_horarios, agenda_config):
         with sqlite3.connect('Agenda.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("""insert into Agenda (nome_cliente, barbeiro, horario_marcado)
-                            values (?, ?, ?)""", (nome_cliente, barbeiro,  horario_marcado))
+            cursor.execute("""insert into Agenda (agenda_codcliente, agenda_codbarbeiro, agenda_data, agenda_horarios, agenda_config)
+                            values (?, ?, ?, ?, ?)""", (agenda_codcliente, agenda_codbarbeiro, agenda_data, agenda_horarios, agenda_config))
     
     def RemoveAgendamento(id):
         with sqlite3.connect('Agenda.db') as conn:
@@ -26,16 +28,8 @@ class Agenda:
         with sqlite3.connect('Agenda.db') as conn:
             cursor = conn.cursor()
             return cursor.execute("select * from Agenda")
-    
-    def ConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte):
-        horario_funcionamento = datetime.strptime(horario_funcionamento, "%H:%M")
-        horario_fechamento = datetime.strptime(horario_fechamento, "%H:%M")
 
-
-        config = [str(horario_funcionamento)[11:].replace(":", "")]
-        
-        while horario_funcionamento < horario_fechamento and horario_funcionamento + timedelta(minutes=tempo_corte) < horario_fechamento:
-            soma_horas = horario_funcionamento + timedelta(minutes=tempo_corte)
-            horario_funcionamento = horario_funcionamento + timedelta(minutes=tempo_corte)
-            config.append(str(soma_horas)[11:].replace(":", ""))
-        return config
+    def ReturnHorarios(barbeiro, data):
+        with sqlite3.connect("Agenda.db") as conn:
+            cursor = conn.cursor()
+            return cursor.execute("Select * from Agenda where agenda_codbarbeiro = ? and agenda_data = ?", (barbeiro, data))
