@@ -1,0 +1,25 @@
+{% extends "Layout.htm" %}
+{% block conteudo %}
+
+
+<form method="POST">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">* Inicio Expediente</label>
+        <input name="inicio_expediente"  class="form-control" id="inputEmail4" type="time">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">* Final Expediente</label>
+        <input  name="final_expendiente" type="time" class="form-control" id="inputPassword4">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress"> * Tempo Médio Corte</label>
+      <input name="tempo_corte" type="number" max=59 min=10  size="4" class="form-control" id="inputAddress" >
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success"> Salvar Configurações</button>
+    </div>
+
+
+{% endblock conteudo %}

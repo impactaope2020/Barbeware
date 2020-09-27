@@ -1,0 +1,44 @@
+{% extends 'Layout.htm' %}
+{% block  conteudo %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Filtrar Agendamentos</h2>
+    </div>
+    <div class="col-md">
+        <p><input style="margin-top: 0.2cm;" id="date" type="date">
+            <a href="#"  ><button class="btn btn-success">Pesquisar</button></p></a>
+        </div>
+    </div>
+<div>
+    <table class="table">
+        <thead class="thead-dark" style="text-align: center;">
+        <tr>
+            <th scope="col">Nome do Cliente</th>
+            <th scope="col">Nome do Barbeiro</th>
+            <th scope="col">Horario Marcado</th>
+            <th scope="col">Excluir</th>
+        </tr>
+        </thead>
+        <form method="POST">
+            <tbody style="text-align: center;">
+                {% for agendamentos in agenda %}
+                {% for nome_barbeiro in barbeiro.RetornarBarbeiroId(agendamentos[2]) %}
+                {% for nome_cliente in cliente.RetornarClienteId(agendamentos[1]) %}
+            <tr> 
+                <td>{{nome_cliente[0] + " " + nome_cliente[1]}}</td>
+                
+                <td>{{nome_barbeiro[0] + " " + nome_barbeiro[1]}}</td>
+
+                <td>{{agendamentos[3]+ " " + agendamentos[4]}}</td>
+
+                <td><a href="{{url_for('RemoveScheduling', id=agendamentos[0])}}"><button type="button" class="btn btn-danger" >X</button></a></td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+            
+            </tbody> 
+        </form>
+    </table>
+</div>
+{% endblock conteudo %}
