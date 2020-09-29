@@ -168,5 +168,13 @@ def ConfigSchedulingPost():
     
     return redirect(url_for('ConfigScheduling'))
 
+
+
+@app.route("/Login/Pedido")
+def CreateOrder():
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

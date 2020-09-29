@@ -1,0 +1,32 @@
+{% extends "Layout.htm" %}
+{% block conteudo %}
+
+<div class="row">
+    <div class="form-group col-3">
+        <label>Cliente</label>
+        <select class="form-control"  name="cliente" id="cliente" required >
+            <option value="">Kaique</option>
+        </select>
+    </div>
+    <div class="form-group col-3">
+        <label for="">Produtos</label>
+        <select class="form-control" name="produtos" id="produtos" required>
+            <option value="">Corte Simples</option>
+        </select>
+    </div>
+    <div class="form-group col-3">
+        <label for="">Barbeiro</label>
+        <select class="form-control" name="barbeiro" id="barbeiro">
+            <option value="">Felipe</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button style="margin-top: 0.8cm;" class="btn btn-success" type="button">Adicionar Produto</button>
+    </div>
+    <hr>
+    <div>
+        
+    </div>
+</div>
+
+{% endblock %}
