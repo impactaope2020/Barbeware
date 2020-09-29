@@ -58,7 +58,6 @@ def PostClient():
         return redirect(url_for('ViewClient')) 
 
 
-
 @app.route("/Login/HistoricoCliente")
 def HistoryClient():
     return render_template("HistoryClient.htm", titulo="Histórico de Cliente", Clientes=Cliente.RetornarClientes(), usuario=nome)
