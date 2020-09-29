@@ -1,10 +1,9 @@
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
-import datetime as dt
+from Models.Usuarios import Usuario
+import datetime 
 import sqlite3
 
-ConfigAgenda.ExcluirConfigAgenda()
-ConfigAgenda.ConfigAgenda("8:00", "18:00", 60)
 
-for horario in ConfigAgenda.RetornarHorarios():
-    print(horario)
+print(Usuario.RetornarBarbeiroId("Selecione um barbeiro"))
+    

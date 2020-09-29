@@ -33,6 +33,12 @@ class Usuario:
         with sqlite3.connect('Usuario.db') as conn:
             cursor = conn.cursor()
             return cursor.execute("select * from Usuario")
+
+    def RetornarBarbeiroId(id):
+        with sqlite3.connect('Usuario.db') as conn:
+            cursor = conn.cursor()
+            return cursor.execute("select nome, sobrenome from Usuario where id = ?", (id,))
+
             
 
     

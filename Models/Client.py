@@ -58,3 +58,8 @@ class Cliente:
         with sqlite3.connect("Cliente.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Cliente where email = ?", (email,))
+
+    def RetornarClienteId(id):
+        with sqlite3.connect("Cliente.db") as conn:
+            cursor = conn.cursor()
+            return cursor.execute("Select nome, sobrenome from Cliente where id = ?", (id,))

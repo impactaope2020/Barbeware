@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
@@ -114,7 +114,7 @@ def Exit():
 
 @app.route("/Login/Agenda")
 def HistoricScheduling():
-    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos())
+    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, cliente=Cliente)
 
 @app.route("/Login/Agenda/<id>")
 def RemoveScheduling(id):
@@ -124,17 +124,35 @@ def RemoveScheduling(id):
 
 @app.route("/Login/Agendamento")
 def Scheduling():
-    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, horarios=ConfigAgenda.RetornarHorarios(), clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios())
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios())
+
+
+@app.route("/Login/Agendamento/<int:barbeiro_id>/<data>")
+def SchedulingBarbeiro(barbeiro_id, data):
+    horarios_barbeiro = Agenda.ReturnHorarios(int(barbeiro_id), str(data))
+    horarios_indisponiveis = []
+    horarios_disponiveis = []
+    if horarios_barbeiro:
+        for indisponiveis in horarios_barbeiro:
+            horarios_indisponiveis.append(indisponiveis[4])
+
+        for todos_horarios in ConfigAgenda.RetornarHorarios():
+            if todos_horarios[3] not in horarios_indisponiveis:
+                horarios_disponiveis.append(todos_horarios[3])
+
+        return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
+    return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
+     
+
 
 @app.route("/Login/Agendamento", methods=["POST"])
 def CreateScheduling():
-    cliente = request.form['cliente']
-    barbeiro = request.form['barbeiro']
-    data = request.form['dia']
+    cliente_id = request.form['cliente']
+    barbeiro_id = request.form['barbeiro']
+    data = request.form['data']
     horario = request.form['hora']
-    data_hora = str(data) + " " + str(horario)
-    Agenda.Agendamento(str(cliente), str(barbeiro), data_hora )
-    return redirect(url_for("CreateScheduling"))
+    Agenda.Agendamento(cliente_id, barbeiro_id, str(data), horario,  1 )
+    return redirect(url_for("Scheduling"))
 
 @app.route("/Login/Configurar Agenda")
 def ConfigScheduling():
@@ -149,6 +167,14 @@ def ConfigSchedulingPost():
     ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
     
     return redirect(url_for('ConfigScheduling'))
+
+
+
+@app.route("/Login/Pedido")
+def CreateOrder():
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
