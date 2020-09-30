@@ -111,6 +111,9 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
+@app.route('/Agendamento')
+def Agendamento():
+    return render_template("agen.html")
 
 @app.route("/Login/Agenda")
 def HistoricScheduling():
