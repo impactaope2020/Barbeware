@@ -3,10 +3,12 @@ from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
+import bcrypt
 
 app = Flask(__name__)
 
 app.secret_key = 'a1b2c3' 
+
 
 nome = None
 
@@ -58,7 +60,6 @@ def PostClient():
         return redirect(url_for('ViewClient')) 
 
 
-
 @app.route("/Login/HistoricoCliente")
 def HistoryClient():
     return render_template("HistoryClient.htm", titulo="Histórico de Cliente", Clientes=Cliente.RetornarClientes(), usuario=nome)
@@ -100,8 +101,7 @@ def CreateUser():
     senha = request.form['senha']
     global nome
     if senha == request.form['senha2']:
-        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha)
-        return redirect(url_for("ViewUser"))
+        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha )
     return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro")
 
 
@@ -111,6 +111,9 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
+@app.route('/Agendamento')
+def Agendamento():
+    return render_template("agen.html")
 
 @app.route("/Login/Agenda")
 def HistoricScheduling():
