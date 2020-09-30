@@ -3,7 +3,6 @@ from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
-import bcrypt
 
 app = Flask(__name__)
 
