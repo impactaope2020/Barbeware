@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
@@ -7,6 +7,7 @@ from Models.ConfigAgenda import ConfigAgenda
 app = Flask(__name__)
 
 app.secret_key = 'a1b2c3' 
+
 
 nome = None
 
@@ -28,7 +29,7 @@ def EnterLogin():
                 for nomes in Usuario.PesquisarUsuarioEmail(str(email)):
                     global nome
                     nome = nomes[1]
-                return redirect(url_for("HomeIndex"))
+                return redirect(url_for("Scheduling"))
     return render_template("Login.htm", email=email, mensagem="E-mail ou Senha Invalidos!", titulo="Login")
         
 
@@ -56,7 +57,6 @@ def PostClient():
     if nome != '' and sobrenome != '':
         Cliente.CadastrarCliente(nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
         return redirect(url_for('ViewClient')) 
-
 
 
 @app.route("/Login/HistoricoCliente")
@@ -100,8 +100,7 @@ def CreateUser():
     senha = request.form['senha']
     global nome
     if senha == request.form['senha2']:
-        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha)
-        return redirect(url_for("ViewUser"))
+        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha )
     return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro")
 
 
@@ -111,15 +110,51 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
+@app.route('/Agendamento')
+def Agendamento():
+    return render_template("agen.html")
 
 @app.route("/Login/Agenda")
-def Schedule():
-    return render_template("Schedule.htm", titulo="Agenda", usuario=nome, horarios=ConfigAgenda.RetornarHorarios() )
+def HistoricScheduling():
+    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, cliente=Cliente)
 
-@app.route("/Login/Agenda/Agendamento")
+@app.route("/Login/Agenda/<id>")
+def RemoveScheduling(id):
+    Agenda.RemoveAgendamento(id)
+    return redirect(url_for("HistoricScheduling"))
+
+
+@app.route("/Login/Agendamento")
 def Scheduling():
-    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome)
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios())
 
+
+@app.route("/Login/Agendamento/<int:barbeiro_id>/<data>")
+def SchedulingBarbeiro(barbeiro_id, data):
+    horarios_barbeiro = Agenda.ReturnHorarios(int(barbeiro_id), str(data))
+    horarios_indisponiveis = []
+    horarios_disponiveis = []
+    if horarios_barbeiro:
+        for indisponiveis in horarios_barbeiro:
+            horarios_indisponiveis.append(indisponiveis[4])
+
+        for todos_horarios in ConfigAgenda.RetornarHorarios():
+            if todos_horarios[3] not in horarios_indisponiveis:
+                horarios_disponiveis.append(todos_horarios[3])
+
+        return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
+    return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
+     
+
+
+@app.route("/Login/Agendamento", methods=["POST"])
+def CreateScheduling():
+    cliente_id = request.form['cliente']
+    barbeiro_id = request.form['barbeiro']
+    data = request.form['data']
+    horario = request.form['hora']
+    Agenda.Agendamento(cliente_id, barbeiro_id, str(data), horario,  1 )
+    return redirect(url_for("Scheduling"))
 
 @app.route("/Login/Configurar Agenda")
 def ConfigScheduling():
@@ -129,13 +164,25 @@ def ConfigScheduling():
 def ConfigSchedulingPost():
     horario_funcionamento = request.form['inicio_expediente']
     horario_fechamento = request.form['final_expendiente']
-    tempo_corte = request.form['tempo_corte'][3:]
+    tempo_corte = request.form['tempo_corte']
+
     ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
+    
     return redirect(url_for('ConfigScheduling'))
 
+<<<<<<< HEAD
 @app.route("/Login/CadastrarProduto")
 def CreateProduce():
     return render_template('CreateProduce.htm', titulo="Cadastrar Produto", usuario=nome)
+=======
+
+
+@app.route("/Login/Pedido")
+def CreateOrder():
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome)
+
+
+>>>>>>> 4f9eebf84b78d6fc35af7bf464cc98aa967a518a
 
 if __name__ == "__main__":
     app.run(debug=True)

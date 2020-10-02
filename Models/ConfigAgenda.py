@@ -5,41 +5,51 @@ class ConfigAgenda:
     with sqlite3.connect("ConfigAgenda.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists ConfigAgenda(
+            id_config integer primary key autoincrement,
             horario_inicio varchar(8),
             horario_final varchar(8),
-            tempo_corte varchar(3)
+            intervalo varchar(8),
+            tempo_corte varchar(3),
+            status integer
         )""")
 
-    def CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte):
+    def CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, intervalo, tempo_corte, status):
         with sqlite3.connect("ConfigAgenda.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("""Insert into ConfigAgenda values (?, ?, ?)""", (horario_funcionamento, horario_fechamento, tempo_corte))
+            cursor.execute("""Insert into ConfigAgenda(horario_inicio, horario_final, intervalo,  tempo_corte, status) values (?, ?, ?, ?, ?)""", (horario_funcionamento, horario_fechamento, intervalo, tempo_corte, status))
     
     def RetornarHorarios():
         with sqlite3.connect("ConfigAgenda.db") as conn:
             cursor = conn.cursor()
-            return cursor.execute("select * from ConfigAgenda ")
+            return cursor.execute("select * from ConfigAgenda where status = 1")
     
-    def ExcluirConfigAgenda():
+    def StatusConfig():
         with sqlite3.connect("ConfigAgenda.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("delete from ConfigAgenda")
+            cursor.execute("update ConfigAgenda set status = 2 ")
 
 
     def ConfigHorarioAgenda(horario_funcionamento, horario_fechamento, tempo_corte):
         if horario_fechamento == "" or  horario_fechamento == "" or tempo_corte == "":
             return "Todos os Campos são obrigatorios"
+        
 
         horario_funcionamento = datetime.strptime(horario_funcionamento, "%H:%M")
         horario_fechamento = datetime.strptime(horario_fechamento, "%H:%M")
-        
-        ConfigAgenda.ExcluirConfigAgenda()
-        ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte)
 
-        while horario_funcionamento < horario_fechamento and horario_funcionamento + timedelta(minutes=tempo_corte) <= horario_fechamento:
-            soma_horas = horario_funcionamento + timedelta(minutes=tempo_corte)
-            horario_funcionamento = horario_funcionamento + timedelta(minutes=tempo_corte)
-            ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, tempo_corte)
+
+        soma_horas = str(horario_funcionamento)[11:]
+        print(soma_horas)        
+        ConfigAgenda.StatusConfig()
+        ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, soma_horas, tempo_corte, 1)
+
+        soma_horas = datetime.strptime(soma_horas, "%H:%M:%S")
+        print(soma_horas)
+        print(horario_fechamento)
+        while soma_horas < horario_fechamento and soma_horas + timedelta(minutes=tempo_corte) <= horario_fechamento:
+            soma_horas = soma_horas + timedelta(minutes=tempo_corte)
+            ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, str(soma_horas)[11:], tempo_corte, 1)
+            
         
         
     
