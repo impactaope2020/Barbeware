@@ -39,8 +39,12 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Pedido</div>
                             <a class="nav-link" href="{{url_for('CreateOrder')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
                                 Criar Pedido
+                            </a>
+                            <a class="nav-link" href="{{url_for('CreateProduce')}}">
+                                <div class="sb-nav-link-icon"><i class="fa fa-server" aria-hidden="true"></i></div>
+                                Cadastrar Produto
                             </a>
                             <div class="sb-sidenav-menu-heading">Gestão</div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -74,15 +78,16 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Cadastrar Barbeiro
                             </a>
-                            <a class="nav-link" href="{{url_for('CreateProduce')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Cadastrar Produto
+                            <a class="nav-link" href="{{url_for('Stock')}}">
+                                <div class="sb-nav-link-icon"><i class="fa fa-window-maximize" aria-hidden="true"></i></div>
+                                Estoque
                             </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">Redes Sociais</div>
+                        <a href="#"></a>
+                        
                     </div>
                 </nav>
             </div>

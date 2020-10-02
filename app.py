@@ -3,6 +3,7 @@ from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
+from Models.Produtos import Produtos
 
 app = Flask(__name__)
 
@@ -175,11 +176,40 @@ def ConfigSchedulingPost():
 def CreateProduce():
     return render_template('CreateProduce.htm', titulo="Cadastrar Produto", usuario=nome)
 
+@app.route("/Login/CadastrarProduto", methods=["POST"])
+def RegisterProduct():
+    nome_produto = request.form["nome_produto"]
+    quantidade_produto = request.form["quantidade_produto"]
+    valor_produto = request.form["valor_produto"]
+    Produtos.CadastrarProdutos(nome_produto, quantidade_produto, valor_produto)
+    return redirect(url_for("CreateProduce"))
+
+
+@app.route("/Login/Estoque")
+def Stock():
+    return render_template("Stock.htm", titulo="Estoque", usuario=nome, estoque=Produtos.RetornarProdutos())
+
+@app.route("/Login/Estoque/<int:id>")
+def DeleteProduce(id):
+    Produtos.ExcluirProdutoId(id)
+    return redirect(url_for("Stock"))
+
+@app.route("/Login/Estoque/EditarProduto/<int:id>")
+def EditProduce(id):
+    return render_template("EditProduce.htm", titulo="Editar Produto", usuario=nome, produtos=Produtos.RetornarProdutoId(id))
+
+@app.route("/Login/Estoque/EditarProduto/<int:id>", methods=["POST"])
+def SaveProduce(id):
+    nome_produto = request.form["nome_produto"]
+    quantidade_produto = request.form["quantidade_produto"]
+    valor_produto = request.form["valor_produto"]
+    Produtos.AlterarProduto(nome_produto, quantidade_produto, valor_produto, id)
+    return redirect(url_for("Stock"))
 
 
 @app.route("/Login/Pedido")
 def CreateOrder():
-    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome)
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome, clientes=Cliente.RetornarClientes(), produtos=Produtos.RetornarProdutos(), barbeiros=Usuario.RetornarUsuarios())
 
 
 
