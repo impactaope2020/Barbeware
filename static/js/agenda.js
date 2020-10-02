@@ -9,7 +9,7 @@ var date = currentDate.getDate();
 var month = currentDate.getMonth(); 
 var year = currentDate.getFullYear();
 
-var dateString = year + "-" + pad(month + 1) + "-" + date;
+var dateString = year + "-" + pad(month + 1) + "-" + dayArred(date);
 
 datas.value = dateString;
 
@@ -17,6 +17,15 @@ function pad(n){
     if (n < 10){
         return "0" + n;
     } 
+    else{
+        return n
+    }
+}
+
+function dayArred(numero){
+    if (numero < 10){
+        return "0" + numero;
+    }
     else{
         return n
     }
