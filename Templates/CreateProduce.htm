@@ -1,0 +1,24 @@
+{% extends 'Layout.htm' %}
+{% block conteudo %}
+
+<div method="POST">
+  <div class="form-group">
+    <label for="cadastroProdutoInput1">* Produto</label>
+    <input type="text" name="nome_produto" class="form-control" id="cadastroProdutoInput1" placeholder="Digite o nome do produto" required>
+  </div>
+  <div class="form-group">
+    <label for="quantidadeSelect1">* Quantidade</label>
+    <input type="number" name="Quant_produto" class="form-control" id="quantidadeSelect1" required min=1>
+  </div>
+  <div class="form-group">
+    <label for="valorInput3">* Valor</label>
+    <input type="text" name="valor_produto" class="form-control" id="ValorInput3" placeholder="Digite o valor do produto" required>
+  </div>
+  <button  type="button" class="btn btn-success">Cadastrar </button>
+
+
+    </div>
+  </form>
+
+{% endblock conteudo %}
+

@@ -133,5 +133,10 @@ def ConfigSchedulingPost():
     ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
     return redirect(url_for('ConfigScheduling'))
 
+@app.route("/Login/CadastrarProduto")
+def CreateProduce():
+    return render_template('CreateProduce.htm', titulo="Cadastrar Produto", usuario=nome)
+
 if __name__ == "__main__":
     app.run(debug=True)
+
