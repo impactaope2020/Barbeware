@@ -9,7 +9,7 @@ var date = currentDate.getDate();
 var month = currentDate.getMonth(); 
 var year = currentDate.getFullYear();
 
-var dateString = year + "-" + pad(month + 1) + "-" + date;
+var dateString = year + "-" + pad(month + 1) + "-" + dayArred(date);
 
 datas.value = dateString;
 
@@ -22,8 +22,17 @@ function pad(n){
     }
 }
 
+function dayArred(numero){
+    if (numero < 10){
+        return "0" + numero;
+    }
+    else{
+        return n
+    }
+}
 
-barbeiro.onchange = function(){
+
+barbeiro.onchange  = function(){
 
     fetch('Agendamento/' + barbeiro.value + "/" + datas.value) .then(function(response){
 
@@ -36,9 +45,16 @@ barbeiro.onchange = function(){
                 alert.innerHTML = "";
             }
             if (data[1].horarios_disponiveis.length === 0){
-                alert.innerHTML = "<br/><div class='alert alert-danger' role='alert'> Todos os horarios já estão agendados para a data " + "<b>" + datas.value + "</b>" + ", por favor,  selecione outro dia ou a agenda de outro barbeiro.</div>"
+                alert.innerHTML = "<br/><div class='alert alert-danger' role='alert'> Todos os horarios já estão agendados para a data " + "<b>" + datas.value + "</b>" + ", por favor,  selecione outro dia ou verifique a agenda de outro barbeiro.</div>"
                 horarios.innerHTML = optionHTML;
             }
           });
          });
         }
+
+datas.onchange = function(){
+    barbeiro.onchange()
+}
+
+
+barbeiro.onchange()

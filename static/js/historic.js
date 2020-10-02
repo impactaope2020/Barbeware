@@ -6,7 +6,7 @@ var day = currentDate.getDate();
 var month = currentDate.getMonth();
 var year = currentDate.getFullYear();
 
-var day_month_year = year + "-" + arred_month(month + 1) + "-" + day ;
+var day_month_year = year + "-" + arred_month(month + 1) + "-" + dayArred(day) ;
 
 date.value = day_month_year;
 
@@ -15,4 +15,12 @@ function arred_month(mes){
         return "0" + mes; 
     }
     return mes
+}
+function dayArred(numero){
+    if (numero < 10){
+        return "0" + numero;
+    }
+    else{
+        return n
+    }
 }

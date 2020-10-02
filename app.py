@@ -171,6 +171,11 @@ def ConfigSchedulingPost():
     return redirect(url_for('ConfigScheduling'))
 
 
+@app.route("/Login/CadastrarProduto")
+def CreateProduce():
+    return render_template('CreateProduce.htm', titulo="Cadastrar Produto", usuario=nome)
+
+
 
 @app.route("/Login/Pedido")
 def CreateOrder():
@@ -178,5 +183,7 @@ def CreateOrder():
 
 
 
+
 if __name__ == "__main__":
     app.run(debug=True)
+

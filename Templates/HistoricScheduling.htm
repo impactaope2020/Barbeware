@@ -1,14 +1,18 @@
 {% extends 'Layout.htm' %}
 {% block  conteudo %}
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <h2>Filtrar Agendamentos</h2>
     </div>
     <div class="form-group col-3">
         <input class="form-control"  id="date" type="date">
     </div>
+    <div class="form-group col-3">
+        <select class="form-control" name="barbeiros" id="barbeiros">
+            <option value="">Selecione o Barbeiro</option>
+        </select>
+    </div>
     <div class="form-group">
-        <button class="btn btn-success">Pesquisar</button>
         <a href="{{url_for('Scheduling')}}"><button class="btn btn-dark">Agendar cliente ?</button></a>
     </div>
 </div>
