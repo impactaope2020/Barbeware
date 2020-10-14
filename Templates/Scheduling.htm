@@ -1,5 +1,6 @@
-{% extends "Layout.htm" %}
-{% block conteudo %}
+{% if tipo_usuario == "Admin" %}
+    {% extends "Layout.htm" %}
+    {% block conteudo %}
 
 <div class="container-fluid">
     <form method="POST">    
@@ -41,3 +42,47 @@
 </div>
 <script src="{{url_for('static', filename='js/agenda.js')}}"></script>
 {%  endblock conteudo %}
+{% else %}
+    {% extends "Layout_Barbeiro.htm" %}
+    {% block conteudo_barbeiro %}
+    <div class="container-fluid">
+        <form method="POST">    
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="">Clientes</label>
+                    <select class="form-control" name="cliente" >
+                        {% for cliente in clientes %}
+                        <option value={{cliente[0]}}>{{cliente[1]+ " "+ cliente[2]}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="">Barbeiros</label>
+                    <select class="form-control" name="barbeiro" id="barbeiro" >
+                        {% for barbeiro in barbeiros  %}
+                        <option  value={{barbeiro[0]}}>{{barbeiro[1] + " " + barbeiro[2]}}</option>
+                        {% endfor %}
+                      </select>
+                </div>
+                <div class="col-md-3"> 
+                    <label for="">Data</label>
+                    <input type="date"  class="form-control" id="data" name="data">
+                </div>
+                <div class="col-md-3">
+                    
+                    <label for="">Horarios Disponiveis</label>
+    
+                    <select class="form-control" name="hora" id="hora" required>
+                    </select>
+                </div>
+                <div id="alert">
+                </div>
+                <div class="col-md-12">
+                    <button  type="submit" style="margin-top: 0.85cm;" class="btn btn-success btn-lg btn-block">Agendar!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{{url_for('static', filename='js/agenda.js')}}"></script>
+    {% endblock %}
+{% endif %}

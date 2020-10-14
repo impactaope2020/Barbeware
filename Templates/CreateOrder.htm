@@ -1,23 +1,30 @@
-{% extends "Layout.htm" %}
-{% block conteudo %}
+
+    {% extends "Layout.htm" %}
+    {% block conteudo %}
 
 <div class="row">
     <div class="form-group col-3">
         <label>Cliente</label>
         <select class="form-control"  name="cliente" id="cliente" required >
-            <option value="">Kaique</option>
+            {% for cliente in clientes %} 
+            <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
+            {% endfor %}
         </select>
     </div>
     <div class="form-group col-3">
-        <label for="">Produtos</label>
+        <label for="">Serviços / Produtos</label>
         <select class="form-control" name="produtos" id="produtos" required>
-            <option value="">Corte Simples</option>
+            {% for produto in produtos %}
+            <option value="{{produto[0]}}">{{produto[1]}}</option>
+            {% endfor %}
         </select>
     </div>
     <div class="form-group col-3">
         <label for="">Barbeiro</label>
         <select class="form-control" name="barbeiro" id="barbeiro">
-            <option value="">Felipe</option>
+            {% for barbeiro in barbeiros%}
+            <option value="{{barbeiro[0]}}">{{barbeiro[1] + " " + barbeiro[2]}}</option>
+            {% endfor %}
         </select>
     </div>
     <div class="form-group">
@@ -29,4 +36,42 @@
     </div>
 </div>
 
-{% endblock %}
+    {% endblock %}
+{% else %}
+    {% extends "Layout_Barbeiro.htm" %}
+    {% block conteudo_barbeiro %}
+    <div class="row">
+        <div class="form-group col-3">
+            <label>Cliente</label>
+            <select class="form-control"  name="cliente" id="cliente" required >
+                {% for cliente in clientes %} 
+                <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-3">
+            <label for="">Serviços / Produtos</label>
+            <select class="form-control" name="produtos" id="produtos" required>
+                {% for produto in produtos %}
+                <option value="{{produto[0]}}">{{produto[1]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-3">
+            <label for="">Barbeiro</label>
+            <select class="form-control" name="barbeiro" id="barbeiro">
+                {% for barbeiro in barbeiros%}
+                <option value="{{barbeiro[0]}}">{{barbeiro[1] + " " + barbeiro[2]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <button style="margin-top: 0.8cm;" class="btn btn-success" type="button">Adicionar Produto</button>
+        </div>
+        <hr>
+        <div>
+            
+        </div>
+    </div>
+    {% endblock %}
+    

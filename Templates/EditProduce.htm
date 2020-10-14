@@ -1,0 +1,28 @@
+{% extends 'Layout.htm' %}
+{% block conteudo %}
+
+<div>
+  <form method="POST">
+    <div class="form-group">
+        {% for produto in produtos %}
+      <label for="cadastroProdutoInput1">* Produto</label>
+      <input type="text" name="nome_produto" class="form-control" id="cadastroProdutoInput1"
+                        placeholder="Digite o nome do produto" value="{{produto[1]}}" required>
+    </div>
+    <div class="form-group">
+      <label for="quantidadeSelect1">* Quantidade</label>
+      <input type="number" name="quantidade_produto" class="form-control" id="quantidadeSelect1"
+                        placeholder="Digite a quantidade" value="{{produto[2]}}" required min=1>
+    </div>
+    <div class="form-group">
+      <label for="valorInput3">* Valor</label>
+      <input type="text" name="valor_produto" class="form-control" id="ValorInput3"
+        value="{{produto[3]}}" placeholder="Digite o valor do produto" required>
+    </div>
+    <button type="submit" class="btn btn-success">Cadastrar </button>
+    {% endfor %}
+  </form>
+</div>
+
+
+{% endblock conteudo %}

@@ -1,14 +1,19 @@
-{% extends 'Layout.htm' %}
-{% block  conteudo %}
+{% if tipo_usuario == "Admin" %}
+    {% extends "Layout.htm" %}
+    {% block conteudo %}
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <h2>Filtrar Agendamentos</h2>
     </div>
     <div class="form-group col-3">
         <input class="form-control"  id="date" type="date">
     </div>
+    <div class="form-group col-3">
+        <select class="form-control" name="barbeiros" id="barbeiros">
+            <option value="">Selecione o Barbeiro</option>
+        </select>
+    </div>
     <div class="form-group">
-        <button class="btn btn-success">Pesquisar</button>
         <a href="{{url_for('Scheduling')}}"><button class="btn btn-dark">Agendar cliente ?</button></a>
     </div>
 </div>
@@ -46,3 +51,58 @@
 </div>
 <script src="{{url_for('static', filename='js/historic.js')}}"></script>
 {% endblock conteudo %}
+{% else %}
+    {% extends "Layout_Barbeiro.htm" %}
+    {% block conteudo_barbeiro %}
+    <div class="row">
+        <div class="col-4">
+            <h2>Filtrar Agendamentos</h2>
+        </div>
+        <div class="form-group col-3">
+            <input class="form-control"  id="date" type="date">
+        </div>
+        <div class="form-group col-3">
+            <select class="form-control" name="barbeiros" id="barbeiros">
+                <option value="">Selecione o Barbeiro</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <a href="{{url_for('Scheduling')}}"><button class="btn btn-dark">Agendar cliente ?</button></a>
+        </div>
+    </div>
+    <div>
+        <table class="table">
+            <thead class="thead-dark" style="text-align: center;">
+            <tr>
+                <th scope="col">Nome do Cliente</th>
+                <th scope="col">Nome do Barbeiro</th>
+                <th scope="col">Data Agendamento</th>
+                <th scope="col">Excluir</th>
+            </tr>
+            </thead>
+            <form method="POST">
+                <tbody style="text-align: center;">
+                    {% for agendamentos in agenda %}
+                    {% for nome_barbeiro in barbeiro.RetornarBarbeiroId(agendamentos[2]) %}
+                    {% for nome_cliente in cliente.RetornarClienteId(agendamentos[1]) %}
+                <tr> 
+                    <td>{{nome_cliente[0] + " " + nome_cliente[1]}}</td>
+                    
+                    <td>{{nome_barbeiro[0] + " " + nome_barbeiro[1]}}</td>
+    
+                    <td>{{agendamentos[3]+ " " + agendamentos[4]}}</td>
+    
+                    <td><a href="{{url_for('RemoveScheduling', id=agendamentos[0])}}"><button type="button" class="btn btn-danger" >X</button></a></td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                {% endfor %}
+                
+                </tbody> 
+            </form>
+        </table>
+    </div>
+    <script src="{{url_for('static', filename='js/historic.js')}}"></script>
+    {% endblock %}
+    
+{% endif %}

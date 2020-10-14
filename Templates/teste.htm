@@ -1,0 +1,11 @@
+{% if tipo_usuario == "Admin" %}
+    {% extends "Layout.htm" %}
+    {% block conteudo %}
+    {% endblock conteudo %}
+
+{% else %}
+    {% extends "Layout_Barbeiro.htm" %}
+    {% block conteudo_barbeiro %}
+    {% endblock %}
+    
+{% endif %}

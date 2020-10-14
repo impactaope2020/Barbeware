@@ -3,7 +3,7 @@ from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
-import bcrypt
+from Models.Produtos import Produtos
 
 app = Flask(__name__)
 
@@ -11,6 +11,11 @@ app.secret_key = 'a1b2c3'
 
 
 nome = None
+id = None
+
+def tipo_cliente(id):
+    for tipo in Usuario.RetornarTipoUsuario(id):
+        return tipo[0]
 
 @app.route("/")
 @app.route("/Login")
@@ -30,19 +35,21 @@ def EnterLogin():
                 for nomes in Usuario.PesquisarUsuarioEmail(str(email)):
                     global nome
                     nome = nomes[1]
+                    global id
+                    id = nomes[0]
                 return redirect(url_for("Scheduling"))
-    return render_template("Login.htm", email=email, mensagem="E-mail ou Senha Invalidos!", titulo="Login")
+    return render_template("Login.htm", email=email, mensagem="E-mail ou Senha Invalidos!", titulo="Login", tipo_usuario=tipo_cliente(id))
         
 
 @app.route("/Login/Home")
 def HomeIndex():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('IndexLogin'))
-    return render_template("Home.htm", titulo="Home Page", usuario=nome)
+    return render_template("Home.htm", titulo="Home Page", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Cadastro")
 def ViewClient():
-    return render_template("ViewClient.htm", titulo="Cadastrar Clientes", usuario=nome)
+    return render_template("ViewClient.htm", titulo="Cadastrar Clientes", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Cadastro", methods=['POST'])
 def PostClient():
@@ -62,7 +69,7 @@ def PostClient():
 
 @app.route("/Login/HistoricoCliente")
 def HistoryClient():
-    return render_template("HistoryClient.htm", titulo="Histórico de Cliente", Clientes=Cliente.RetornarClientes(), usuario=nome)
+    return render_template("HistoryClient.htm", titulo="Histórico de Cliente", Clientes=Cliente.RetornarClientes(), usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/HistoricoCliente/<id>")
 def DeleteClient(id):
@@ -71,7 +78,7 @@ def DeleteClient(id):
 
 @app.route("/Login/HistoricoClienteEditar/<id>")
 def ViewAlterClient(id):
-    return render_template('ViewAlterClient.htm', titulo='Alterar Cliente', Cliente=Cliente.LocalizarCliente(id), usuario=nome)
+    return render_template('ViewAlterClient.htm', titulo='Alterar Cliente', Cliente=Cliente.LocalizarCliente(id), usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/HistoricoClienteEditar/<id>", methods=["POST"])
 def AlterClient(id):
@@ -91,18 +98,20 @@ def AlterClient(id):
 
 @app.route("/Login/CadastrarUsuario")
 def ViewUser():
-    return render_template("ViewUser.htm", titulo="Cadastrar Barbeiro", usuario=nome)
+    return render_template("ViewUser.htm", titulo="Cadastrar Barbeiro", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/CadastrarUsuario", methods=['POST'])
 def CreateUser():
+    tipo_usuario = request.form['tipo_usuario']
     nome1 = request.form['nome']
     sobrenome = request.form['sobrenome']
     email = request.form['email']
     senha = request.form['senha']
     global nome
     if senha == request.form['senha2']:
-        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha )
-    return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro")
+        Usuario.CadastrarUsuario(nome1, sobrenome, email, senha, tipo_usuario)
+        return render_template("ViewUser.htm",usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
+    return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
 
 
 @app.route("/Exit")
@@ -111,13 +120,9 @@ def Exit():
     nome = None
     return redirect(url_for("IndexLogin"))
 
-@app.route('/Agendamento')
-def Agendamento():
-    return render_template("agen.html")
-
 @app.route("/Login/Agenda")
 def HistoricScheduling():
-    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, cliente=Cliente)
+    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, cliente=Cliente, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Agenda/<id>")
 def RemoveScheduling(id):
@@ -125,9 +130,10 @@ def RemoveScheduling(id):
     return redirect(url_for("HistoricScheduling"))
 
 
+
 @app.route("/Login/Agendamento")
 def Scheduling():
-    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios())
+    return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id))
 
 
 @app.route("/Login/Agendamento/<int:barbeiro_id>/<data>")
@@ -159,7 +165,7 @@ def CreateScheduling():
 
 @app.route("/Login/Configurar Agenda")
 def ConfigScheduling():
-    return render_template("ConfigScheduling.htm", titulo="Configurar Agendamento", usuario=nome)
+    return render_template("ConfigScheduling.htm", titulo="Configurar Agendamento", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Configurar Agenda", methods=['POST'])
 def ConfigSchedulingPost():
@@ -172,12 +178,61 @@ def ConfigSchedulingPost():
     return redirect(url_for('ConfigScheduling'))
 
 
+@app.route("/Login/CadastrarProduto")
+def CreateProduce():
+    return render_template('CreateProduce.htm', titulo="Cadastrar Produto", usuario=nome, tipo_usuario=tipo_cliente(id))
+
+@app.route("/Login/CadastrarProduto", methods=["POST"])
+def RegisterProduct():
+    nome_produto = request.form["nome_produto"]
+    quantidade_produto = request.form["quantidade_produto"]
+    valor_produto = request.form["valor_produto"]
+    Produtos.CadastrarProdutos(nome_produto, quantidade_produto, valor_produto)
+    return redirect(url_for("CreateProduce"))
+
+
+@app.route("/Login/Estoque")
+def Stock():
+    return render_template("Stock.htm", titulo="Estoque", usuario=nome, estoque=Produtos.RetornarProdutos(), tipo_usuario=tipo_cliente(id))
+
+@app.route("/Login/Estoque/<int:id>")
+def DeleteProduce(id):
+    Produtos.ExcluirProdutoId(id)
+    return redirect(url_for("Stock"))
+
+@app.route("/Login/Estoque/EditarProduto/<int:id>")
+def EditProduce(id):
+    return render_template("EditProduce.htm", titulo="Editar Produto", usuario=nome, produtos=Produtos.RetornarProdutoId(id), tipo_usuario=tipo_cliente(id))
+
+@app.route("/Login/Estoque/EditarProduto/<int:id>", methods=["POST"])
+def SaveProduce(id):
+    nome_produto = request.form["nome_produto"]
+    quantidade_produto = request.form["quantidade_produto"]
+    valor_produto = request.form["valor_produto"]
+    Produtos.AlterarProduto(nome_produto, quantidade_produto, valor_produto, id)
+    return redirect(url_for("Stock"))
+
 
 @app.route("/Login/Pedido")
 def CreateOrder():
-    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome)
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome, clientes=Cliente.RetornarClientes(), produtos=Produtos.RetornarProdutos(), barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id))
 
+
+@app.route("/Login/Barbeiro")
+def Barber():
+    return render_template("Barber.htm", titulo="Barbeiros", usuario=nome, barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id))
+
+@app.route("/Login/Barbeiro/<int:id>")
+def DeletarBarbeiro(id):
+    Usuario.DeletarBarbeiroId(id)
+    return redirect(url_for("Barber"))
+
+
+@app.route("/Login/Teste")
+def Teste():
+    return render_template("teste.htm", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
