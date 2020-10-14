@@ -1,5 +1,6 @@
-{% extends 'Layout.htm' %}
-{% block conteudo %}
+{% if tipo_usuario == "Admin" %}
+    {% extends "Layout.htm" %}
+    {% block conteudo %}
 
 <div>
   <form method="POST">
@@ -25,3 +26,4 @@
 
 
 {% endblock conteudo %}
+{% endif %}

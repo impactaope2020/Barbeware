@@ -8,15 +8,16 @@ class Usuario:
                         nome varchar(20) not null,
                         sobrenome varchar(20) not null,
                         email varchar(50) not null,
-                        senha varchar(50) not null
+                        senha varchar(50) not null,
+                        tipo_usuario varchar(10) not null
                         )""")
         conn.commit()
     
-    def CadastrarUsuario(nome, sobrenome, email, senha):
+    def CadastrarUsuario(tipo_usuario, nome, sobrenome, email, senha):
         with sqlite3.connect('Usuario.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("""insert into Usuario (nome, sobrenome, email, senha)
-                            values(?, ?, ?, ?)""", (nome, sobrenome, email, senha))
+            cursor.execute("""insert into Usuario (nome, sobrenome, email, senha, tipo_usuario)
+                            values(?, ?, ?, ?, ?)""", (tipo_usuario, nome, sobrenome, email, senha))
             
     
     def ValidarUsuario(email, senha):
@@ -38,6 +39,16 @@ class Usuario:
         with sqlite3.connect('Usuario.db') as conn:
             cursor = conn.cursor()
             return cursor.execute("select nome, sobrenome from Usuario where id = ?", (id,))
+    
+    def DeletarBarbeiroId(id):
+        with sqlite3.connect("Usuario.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("Delete from Usuario where id = ?", (id,))
+    
+    def RetornarTipoUsuario(id):
+        with sqlite3.connect("Usuario.db") as conn:
+            cursor = conn.cursor()
+            return cursor.execute("Select tipo_usuario from  Usuario where id = ?", (id,))
 
             
 
