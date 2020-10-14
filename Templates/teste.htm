@@ -1,13 +1,11 @@
 {% if tipo_usuario == "Admin" %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
-        <h1>AQUI</h1>
     {% endblock conteudo %}
 
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
     {% block conteudo_barbeiro %}
-    <h1>Deu Certo</h1>
     {% endblock %}
     
 {% endif %}
