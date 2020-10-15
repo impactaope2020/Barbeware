@@ -56,3 +56,9 @@ class Agenda:
             cursor = conn.cursor()
             cursor.execute(""" Update Agenda set agenda_data = ?, agenda_horario = ?
                                                 where id = ? """, (agenda_codcliente, agenda_codbarbeiro, agenda_data, agenda_horario, id))
+
+    def SelectAgendamentos(data, id_barbeiro):
+        with sqlite3.connect('Agenda.db') as conn:
+            cursor = conn.cursor()
+            return cursor.execute("""Select * from Agenda where agenda_codbarbeiro = ? and agenda_data = ?""",
+                                 (id_barbeiro, data))
