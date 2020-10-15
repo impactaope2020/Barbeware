@@ -122,7 +122,7 @@ def Exit():
 
 @app.route("/Login/Agenda")
 def HistoricScheduling():
-    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, cliente=Cliente, tipo_usuario=tipo_cliente(id))
+    return render_template("HistoricScheduling.htm", titulo="Agenda", usuario=nome, agenda=Agenda.ReturneAgendamentos(), barbeiro=Usuario, nome_usuario=Usuario.RetornarUsuarios(), cliente=Cliente, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Agenda/<id>")
 def RemoveScheduling(id):
@@ -228,9 +228,10 @@ def DeletarBarbeiro(id):
     return redirect(url_for("Barber"))
 
 
-@app.route("/Login/Teste")
-def Teste():
-    return render_template("teste.htm", usuario=nome, tipo_usuario=tipo_cliente(id))
+@app.route("/Login/Agenda/<data>/<id_barbeiro>")
+def FilterScheduling(data, id_barbeiro):
+    horarios_agendados = [agendamentos for agendamentos in Agenda.SelectAgendamentos(data, id_barbeiro)]
+    return jsonify({'Agendamentos': horarios_agendados})
 
 
 if __name__ == "__main__":

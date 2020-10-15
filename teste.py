@@ -5,11 +5,9 @@ import datetime
 import sqlite3
 
 
-def tipo_cliente(id):
-    for tipo in Usuario.RetornarTipoUsuario(id):
-        return tipo[0]
-
-id = 1
-tipo = tipo_cliente(id)
-print(tipo)
+for agendamentos in Agenda.SelectAgendamentos('2020-09-20', 2):
+    print(agendamentos)
     
+
+'''for agendamento in Agenda.ReturneAgendamentos():
+    print(agendamento)'''
