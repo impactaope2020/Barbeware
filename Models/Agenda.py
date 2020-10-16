@@ -60,5 +60,4 @@ class Agenda:
     def SelectAgendamentos(data, id_barbeiro):
         with sqlite3.connect('Agenda.db') as conn:
             cursor = conn.cursor()
-            return cursor.execute("""Select * from Agenda where agenda_codbarbeiro = ? and agenda_data = ?""",
-                                 (id_barbeiro, data))
+            return cursor.execute("""Select * from Agenda   """)
