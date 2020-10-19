@@ -1,7 +1,7 @@
 import sqlite3
 
 class Produtos:
-    with sqlite3.connect("Produtos.db") as conn:
+    with sqlite3.connect("Banco.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists Produtos(
             id integer primary key autoincrement,
@@ -11,28 +11,28 @@ class Produtos:
             )""")
     
     def CadastrarProdutos(nome_produto, quantidade_produto, valor_produto):
-        with sqlite3.connect("Produtos.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("""insert into Produtos (nome_produto, quantidade_produto, valor_produto) values (?, ?, ?)""",
                                 (nome_produto, quantidade_produto, valor_produto))
     
     def RetornarProdutos():
-        with sqlite3.connect("Produtos.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Produtos")
 
     def ExcluirProdutoId(id):
-        with sqlite3.connect("Produtos.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("delete from Produtos where id = ?", (id,))
     
     def RetornarProdutoId(id):
-        with sqlite3.connect("Produtos.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Produtos where id = ?", (id,))
     
     def AlterarProduto(nome_produto, quantidade_produto, valor_produto, id):
-        with sqlite3.connect("Produtos.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("""update Produtos set nome_produto = ?, 
                                                 quantidade_produto = ?,

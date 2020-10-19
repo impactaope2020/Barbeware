@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import sqlite3
 
 class ConfigAgenda:
-    with sqlite3.connect("ConfigAgenda.db") as conn:
+    with sqlite3.connect("Banco.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists ConfigAgenda(
             id_config integer primary key autoincrement,
@@ -14,17 +14,17 @@ class ConfigAgenda:
         )""")
 
     def CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, intervalo, tempo_corte, status):
-        with sqlite3.connect("ConfigAgenda.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("""Insert into ConfigAgenda(horario_inicio, horario_final, intervalo,  tempo_corte, status) values (?, ?, ?, ?, ?)""", (horario_funcionamento, horario_fechamento, intervalo, tempo_corte, status))
     
     def RetornarHorarios():
-        with sqlite3.connect("ConfigAgenda.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("select * from ConfigAgenda where status = 1")
     
     def StatusConfig():
-        with sqlite3.connect("ConfigAgenda.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("update ConfigAgenda set status = 2 ")
 
