@@ -38,7 +38,7 @@ barbeiro.onchange  = function(){
 
           response.json().then(function(data) {
             
-           optionHTML = '';
+            optionHTML = '';
             for (disponiveis = 0; disponiveis < data[1].horarios_disponiveis.length; disponiveis++){
                 optionHTML += '<option value="' + data[1].horarios_disponiveis[disponiveis] +'">' + data[1].horarios_disponiveis[disponiveis] + '</option>'
                 horarios.innerHTML = optionHTML;
