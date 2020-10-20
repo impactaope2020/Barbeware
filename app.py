@@ -130,7 +130,6 @@ def RemoveScheduling(id):
     return redirect(url_for("HistoricScheduling"))
 
 
-
 @app.route("/Login/Agendamento")
 def Scheduling():
     return render_template("Scheduling.htm", titulo="Agendamento", usuario=nome, clientes=Cliente.RetornarClientes(), barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id))
@@ -145,7 +144,7 @@ def SchedulingBarbeiro(barbeiro_id, data):
         for indisponiveis in horarios_barbeiro:
             horarios_indisponiveis.append(indisponiveis[4])
 
-        for todos_horarios in ConfigAgenda.RetornarHorarios():
+        for todos_horarios in ConfigAgenda.RetornarHorarios(barbeiro_id):
             if todos_horarios[3] not in horarios_indisponiveis:
                 horarios_disponiveis.append(todos_horarios[3])
 
@@ -165,15 +164,16 @@ def CreateScheduling():
 
 @app.route("/Login/Configurar Agenda")
 def ConfigScheduling():
-    return render_template("ConfigScheduling.htm", titulo="Configurar Agendamento", usuario=nome, tipo_usuario=tipo_cliente(id))
+    return render_template("ConfigScheduling.htm", barbeiros=Usuario.RetornarBarbeiroId(id), titulo="Configurar Agendamento", usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/Configurar Agenda", methods=['POST'])
 def ConfigSchedulingPost():
+    barbeiro_id = request.form['barbeiro']
     horario_funcionamento = request.form['inicio_expediente']
     horario_fechamento = request.form['final_expendiente']
     tempo_corte = request.form['tempo_corte']
 
-    ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte))
+    ConfigAgenda.ConfigHorarioAgenda(str(horario_funcionamento), str(horario_fechamento), int(tempo_corte), int(barbeiro_id))
     
     return redirect(url_for('ConfigScheduling'))
 

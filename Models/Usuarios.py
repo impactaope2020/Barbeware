@@ -38,7 +38,7 @@ class Usuario:
     def RetornarBarbeiroId(id):
         with sqlite3.connect('Banco.db') as conn:
             cursor = conn.cursor()
-            return cursor.execute("select nome, sobrenome from Usuario where id = ?", (id,))
+            return cursor.execute("select nome || ' ' || sobrenome, id from Usuario where id = ?", (id,))
     
     def DeletarBarbeiroId(id):
         with sqlite3.connect("Banco.db") as conn:

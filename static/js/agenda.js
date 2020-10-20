@@ -31,6 +31,11 @@ function dayArred(numero){
     }
 }
 
+function reverseDate(date){
+    data = date.split('-')
+    return data[2] + '/' + data[1] + '/' + data[0]
+}
+
 
 barbeiro.onchange  = function(){
 
@@ -45,7 +50,7 @@ barbeiro.onchange  = function(){
                 alert.innerHTML = "";
             }
             if (data[1].horarios_disponiveis.length === 0){
-                alert.innerHTML = "<br/><div class='alert alert-danger' role='alert'> Todos os horarios já estão agendados para a data " + "<b>" + datas.value + "</b>" + ", por favor,  selecione outro dia ou verifique a agenda de outro barbeiro.</div>"
+                alert.innerHTML = "<br/><div class='alert alert-danger' role='alert'> Todos os horarios já estão agendados para a data " + "<b>" + reverseDate(datas.value) + "</b>" + ", por favor,  selecione outro dia ou verifique a agenda de outro barbeiro.</div>"
                 horarios.innerHTML = optionHTML;
             }
           });
