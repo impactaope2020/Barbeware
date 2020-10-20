@@ -42,13 +42,12 @@ class ConfigAgenda:
 
 
         soma_horas = str(horario_funcionamento)[11:]
-        print(soma_horas)        
+   
         ConfigAgenda.StatusConfig(barbeiro_id)
         ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, soma_horas, tempo_corte, 1, barbeiro_id)
 
         soma_horas = datetime.strptime(soma_horas, "%H:%M:%S")
-        print(soma_horas)
-        print(horario_fechamento)
+
         while soma_horas < horario_fechamento and soma_horas + timedelta(minutes=tempo_corte) <= horario_fechamento:
             soma_horas = soma_horas + timedelta(minutes=tempo_corte)
             ConfigAgenda.CadastrarConfigAgenda(horario_funcionamento, horario_fechamento, str(soma_horas)[11:], tempo_corte, 1, barbeiro_id)
