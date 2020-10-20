@@ -1,65 +1,108 @@
 {% if tipo_usuario == "Admin" %}
-    {% extends "Layout.htm" %}
-    {% block conteudo %}
-
+{% extends "Layout.htm" %}
+{% block conteudo %}
 <table class="table">
-    <thead class="thead-dark" style="text-align: center;">
-      <tr>
-        <th scope="col">id</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Sobrenome</th>
-        <th scope="col">Email</th>
-        <th scope="col">Endereço</th>
-        <th scope="col">N°</th>
-        <th scope="col">Editar</th>
-      </tr>
-    </thead>
-    <tbody style="text-align: center;">
-      {% for Cliente in Clientes %}
-      <tr>
-        <td>{{Cliente[0]}}</td>
-        <td>{{Cliente[1]}}</td>
-        <td>{{Cliente[2]}}</td>
-        <td>{{Cliente[3]}}</td>
-        <td>{{Cliente[4]}}</td>
-        <td>{{Cliente[5]}}</td>
-        <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button  class="btn btn-dark">Editar</button></a>
-          <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button type="button" class="btn btn-danger">Excluir</button></a></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-    {% endblock conteudo %}
+  <thead class="thead-dark" style="text-align: center;">
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Sobrenome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Endereço</th>
+      <th scope="col">N°</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody style="text-align: center;">
+    {% for Cliente in Clientes %}
+    <tr>
+      <td>{{Cliente[0]}}</td>
+      <td>{{Cliente[1]}}</td>
+      <td>{{Cliente[2]}}</td>
+      <td>{{Cliente[3]}}</td>
+      <td>{{Cliente[4]}}</td>
+      <td>{{Cliente[5]}}</td>
+      <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+          Excluir
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Deseja realmente excluir o item ?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+        {% endfor %}
+  </tbody>
+</table>
+{% endblock conteudo %}
 {% else %}
-    {% extends "Layout_Barbeiro.htm" %}
-    {% block conteudo_barbeiro %}
-      <table class="table">
-        <thead class="thead-dark" style="text-align: center;">
-          <tr>
-            <th scope="col">id</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Sobrenome</th>
-            <th scope="col">Email</th>
-            <th scope="col">Endereço</th>
-            <th scope="col">N°</th>
-            <th scope="col">Editar</th>
-          </tr>
-        </thead>
-        <tbody style="text-align: center;">
-          {% for Cliente in Clientes %}
-          <tr>
-            <td>{{Cliente[0]}}</td>
-            <td>{{Cliente[1]}}</td>
-            <td>{{Cliente[2]}}</td>
-            <td>{{Cliente[3]}}</td>
-            <td>{{Cliente[4]}}</td>
-            <td>{{Cliente[5]}}</td>
-            <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button  class="btn btn-dark">Editar</button></a>
-              <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button type="button" class="btn btn-danger">Excluir</button></a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% endblock %}
-    
+{% extends "Layout_Barbeiro.htm" %}
+{% block conteudo_barbeiro %}
+<table class="table">
+  <thead class="thead-dark" style="text-align: center;">
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Sobrenome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Endereço</th>
+      <th scope="col">N°</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody style="text-align: center;">
+    {% for Cliente in Clientes %}
+    <tr>
+      <td>{{Cliente[0]}}</td>
+      <td>{{Cliente[1]}}</td>
+      <td>{{Cliente[2]}}</td>
+      <td>{{Cliente[3]}}</td>
+      <td>{{Cliente[4]}}</td>
+      <td>{{Cliente[5]}}</td>
+      <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+          Excluir
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Deseja realmente excluir o item ?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+        {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
 {% endif %}
