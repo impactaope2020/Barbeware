@@ -1,7 +1,7 @@
-
+{% if tipo_usuario == "Admin" %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
-
+    
 <div class="row">
     <div class="form-group col-3">
         <label>Cliente</label>
@@ -36,7 +36,7 @@
     </div>
 </div>
 
-    {% endblock %}
+{% endblock %}
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
     {% block conteudo_barbeiro %}
@@ -73,5 +73,6 @@
             
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
+{% endif  %}
     
