@@ -1,7 +1,8 @@
+
 {% if tipo_usuario == 'Admin' %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
-
+    
 <div class="row">
     <div class="form-group col-3">
         <label>Cliente</label>
@@ -23,7 +24,7 @@
         <label for="">Barbeiro</label>
         <select class="form-control" name="barbeiro" id="barbeiro">
             {% for barbeiro in barbeiros%}
-            <option value="{{barbeiro[0]}}">{{barbeiro[1] + " " + barbeiro[2]}}</option>
+            <option value="{{barbeiro[0]}}">{{barbeiro[1]}}</option>
             {% endfor %}
         </select>
     </div>
@@ -74,5 +75,6 @@
         </div>
     </div>
 {% endblock %}
+
+{% endif  %}
     
-{% endif %}
