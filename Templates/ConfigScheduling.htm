@@ -1,51 +1,109 @@
 {% if tipo_usuario == "Admin" %}
-    {% extends "Layout.htm" %}
-    {% block conteudo %}
-
-
+{% extends "Layout.htm" %}
+{% block conteudo %}
 <form method="POST">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputEmail4">* Inicio Expediente</label>
-        <input name="inicio_expediente"  class="form-control" id="inputEmail4" type="time" required>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>* Barbeiro</label>
+      <select class='form-control' name="barbeiro">
+        {% for barbeiro in barbeiros %}
+        <option value="{{barbeiro[1]}}">{{barbeiro[0]}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">* Inicio Expediente</label>
+      <input name="inicio_expediente" class="form-control" id="inputEmail4" type="time" required>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">* Final Expediente</label>
+      <input name="final_expendiente" type="time" class="form-control" id="inputPassword4" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress"> * Tempo Médio Corte</label>
+    <input name="tempo_corte" type="number" max=59 min=10 size="4" class="form-control" id="inputAddress"
+      placeholder="Ex.:30" required>
+  </div>
+  <div>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"> Salvar
+      Configurações</button>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: red; text-align: center;">Atenção !!!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>Ao configurar a agenda novamente os agendamentos já efetuados seram desconsiderados</b> 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" >Salvar Configurações</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Sair</button>
+        </div>
       </div>
-      <div class="form-group col-md-6">
+    </div>
+  </div>
+
+
+  {% endblock conteudo %}
+  {% else %}
+  {% extends "Layout_Barbeiro.htm" %}
+  {% block conteudo_barbeiro %}
+  <form method="POST">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label>* Barbeiro</label>
+        <select class='form-control' name="barbeiro">
+          {% for barbeiro in barbeiros %}
+          <option value="{{barbeiro[1]}}">{{barbeiro[0]}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputEmail4">* Inicio Expediente</label>
+        <input name="inicio_expediente" class="form-control" id="inputEmail4" type="time" required>
+      </div>
+      <div class="form-group col-md-4">
         <label for="inputPassword4">* Final Expediente</label>
-        <input  name="final_expendiente" type="time" class="form-control" id="inputPassword4" required>
+        <input name="final_expendiente" type="time" class="form-control" id="inputPassword4" required>
       </div>
     </div>
     <div class="form-group">
       <label for="inputAddress"> * Tempo Médio Corte</label>
-      <input name="tempo_corte" type="number" max=59 min=10  size="4" class="form-control" id="inputAddress" placeholder="Ex.:30" required>
+      <input name="tempo_corte" type="number" max=59 min=10 size="4" class="form-control" id="inputAddress"
+        placeholder="Ex.:30" required>
     </div>
     <div>
-        <button type="submit" class="btn btn-success"> Salvar Configurações</button>
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"> Salvar
+        Configurações</button>
     </div>
-
-
-{% endblock conteudo %}
-{% else %}
-    {% extends "Layout_Barbeiro.htm" %}
-    {% block conteudo_barbeiro %}
-    <form method="POST">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">* Inicio Expediente</label>
-          <input name="inicio_expediente"  class="form-control" id="inputEmail4" type="time" required>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: red; text-align: center;">Atenção</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <b>Ao configurar a agenda novamente os agendamentos já efetuados seram desconsiderados</b> 
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" >Salvar Configurações</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Sair</button>
+          </div>
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">* Final Expediente</label>
-          <input  name="final_expendiente" type="time" class="form-control" id="inputPassword4" required>
-        </div>
       </div>
-      <div class="form-group">
-        <label for="inputAddress"> * Tempo Médio Corte</label>
-        <input name="tempo_corte" type="number" max=59 min=10  size="4" class="form-control" id="inputAddress" placeholder="Ex.:30" required>
-      </div>
-      <div>
-          <button type="submit" class="btn btn-success"> Salvar Configurações</button>
-      </div>
+    </div>
   
     {% endblock %}
-    
-{% endif %}
+
+    {% endif %}

@@ -1,7 +1,7 @@
 import sqlite3
 
 class Cliente:
-    with sqlite3.connect("Cliente.db") as conn:
+    with sqlite3.connect("Banco.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""Create table if not exists Cliente(
                             id integer primary key autoincrement,
@@ -17,30 +17,30 @@ class Cliente:
                             )""")
     
     def CadastrarCliente(nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute(""" insert into Cliente (nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
                                         values (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep))
             
     
     def RetornarClientes():
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("select * from Cliente")
     
     def ExcluirCliente(id):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("Delete from Cliente where id = ? ", (id, ))
             
         
     def LocalizarCliente(id):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Cliente where id = ?", (id,))
     
     def AtualizarCliente(id, nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             cursor.execute("""Update Cliente set nome = ?, 
                                                 sobrenome = ?,
@@ -55,11 +55,11 @@ class Cliente:
                                                 """, (nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep, id))
     
     def LocalizarClienteEmail(email):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select * from Cliente where email = ?", (email,))
 
     def RetornarClienteId(id):
-        with sqlite3.connect("Cliente.db") as conn:
+        with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
             return cursor.execute("Select nome, sobrenome from Cliente where id = ?", (id,))

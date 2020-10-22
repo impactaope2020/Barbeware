@@ -9,8 +9,11 @@
         <input class="form-control"  id="date" type="date">
     </div>
     <div class="form-group col-3">
+        
         <select class="form-control" name="barbeiros" id="barbeiros">
-            <option value="">Selecione o Barbeiro</option>
+        {% for usuarios in nome_usuario %}
+            <option value={{usuarios[0]}}>{{usuarios[1]}}</option>
+        {% endfor %}
         </select>
     </div>
     <div class="form-group">
@@ -28,28 +31,13 @@
         </tr>
         </thead>
         <form method="POST">
-            <tbody style="text-align: center;">
-                {% for agendamentos in agenda %}
-                {% for nome_barbeiro in barbeiro.RetornarBarbeiroId(agendamentos[2]) %}
-                {% for nome_cliente in cliente.RetornarClienteId(agendamentos[1]) %}
-            <tr> 
-                <td>{{nome_cliente[0] + " " + nome_cliente[1]}}</td>
-                
-                <td>{{nome_barbeiro[0] + " " + nome_barbeiro[1]}}</td>
-
-                <td>{{agendamentos[3]+ " " + agendamentos[4]}}</td>
-
-                <td><a href="{{url_for('RemoveScheduling', id=agendamentos[0])}}"><button type="button" class="btn btn-danger" >X</button></a></td>
-            </tr>
-            {% endfor %}
-            {% endfor %}
-            {% endfor %}
-            
+            <tbody style="text-align: center;" id="tbody">
             </tbody> 
         </form>
     </table>
 </div>
 <script src="{{url_for('static', filename='js/historic.js')}}"></script>
+<script src="{{url_for('static', filename='js/FilterScheduling.js')}}"></script>
 {% endblock conteudo %}
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
@@ -62,8 +50,11 @@
             <input class="form-control"  id="date" type="date">
         </div>
         <div class="form-group col-3">
+            
             <select class="form-control" name="barbeiros" id="barbeiros">
-                <option value="">Selecione o Barbeiro</option>
+            {% for usuarios in nome_usuario %}
+                <option value={{usuarios[0]}}>{{usuarios[1]}}</option>
+            {% endfor %}
             </select>
         </div>
         <div class="form-group">
@@ -81,28 +72,13 @@
             </tr>
             </thead>
             <form method="POST">
-                <tbody style="text-align: center;">
-                    {% for agendamentos in agenda %}
-                    {% for nome_barbeiro in barbeiro.RetornarBarbeiroId(agendamentos[2]) %}
-                    {% for nome_cliente in cliente.RetornarClienteId(agendamentos[1]) %}
-                <tr> 
-                    <td>{{nome_cliente[0] + " " + nome_cliente[1]}}</td>
-                    
-                    <td>{{nome_barbeiro[0] + " " + nome_barbeiro[1]}}</td>
-    
-                    <td>{{agendamentos[3]+ " " + agendamentos[4]}}</td>
-    
-                    <td><a href="{{url_for('RemoveScheduling', id=agendamentos[0])}}"><button type="button" class="btn btn-danger" >X</button></a></td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-                {% endfor %}
-                
+                <tbody style="text-align: center;" id="tbody">
                 </tbody> 
             </form>
         </table>
     </div>
     <script src="{{url_for('static', filename='js/historic.js')}}"></script>
+    <script src="{{url_for('static', filename='js/FilterScheduling.js')}}"></script>
     {% endblock %}
     
 {% endif %}
