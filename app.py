@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify, flash
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
@@ -64,6 +64,7 @@ def PostClient():
     cep = request.form['cep']
     if nome != '' and sobrenome != '':
         Cliente.CadastrarCliente(nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
+        flash("Cliente Cadastrado com Sucesso!")
         return redirect(url_for('ViewClient')) 
 
 
@@ -110,6 +111,7 @@ def CreateUser():
     global nome
     if senha == request.form['senha2']:
         Usuario.CadastrarUsuario(nome1, sobrenome, email, senha, tipo_usuario)
+        flash("Barbeiro cadastrado com Successo!")
         return render_template("ViewUser.htm",usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
     return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
 
@@ -148,6 +150,7 @@ def SchedulingBarbeiro(barbeiro_id, data):
             if todos_horarios[3] not in horarios_indisponiveis:
                 horarios_disponiveis.append(todos_horarios[3])
 
+
         return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
     return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
      
@@ -160,6 +163,7 @@ def CreateScheduling():
     data = request.form['data']
     horario = request.form['hora']
     Agenda.Agendamento(cliente_id, barbeiro_id, str(data), horario,  1 )
+    flash("Agendamento Efetuado!")
     return redirect(url_for("Scheduling"))
 
 @app.route("/Login/Configurar Agenda")
@@ -188,6 +192,7 @@ def RegisterProduct():
     quantidade_produto = request.form["quantidade_produto"]
     valor_produto = request.form["valor_produto"]
     Produtos.CadastrarProdutos(nome_produto, quantidade_produto, valor_produto)
+    flash("Produto {} cadastrado !".format(nome_produto))
     return redirect(url_for("CreateProduce"))
 
 

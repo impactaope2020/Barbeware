@@ -1,8 +1,14 @@
 {% if tipo_usuario == "Admin" %}
-    {% extends "Layout.htm" %}
-    {% block conteudo %}
+{% extends "Layout.htm" %}
+{% block conteudo %}
 
 <div>
+  <div class="col-md-12">
+    {% for message in get_flashed_messages() %}
+
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  </div>
   <form method="POST">
     <div class="form-group">
       <label for="cadastroProdutoInput1">* Produto</label>
