@@ -19,10 +19,12 @@
             <td>{{produto[1]}}</td>
             <td>{{produto[2]}}</td>
             <td>R$ {{produto[3]}}</td>
-            <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            <td><a href="{{url_for('ListEnterStock', id=produto[0])}}"><button class="btn btn-success">Entradas</button></a>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
               Excluir
             </button>
             <a href="{{url_for('EditProduce', id=produto[0])}}"><button class="btn btn-dark">Editar</button></a>
+            
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
