@@ -1,45 +1,79 @@
 {% extends 'Layout.htm' %}
 {% block conteudo %}
-
-<form method="POST">
-    <div class="row">
-        <div class="col-3">
-            <div class="form-group">
-                <label>Produtos</label>
-                <select class="form-control" name="produto" required>
-                    {% for produto in produtos %}
-                    <option value="{{produto[0]}}">{{produto[1]}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label>Quantidade</label>
-                <input class="form-control" type="number" name="quantidade" min=1 placeholder="Ex: 3" required >
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label>Valor Pago</label>
-                <input class='form-control' type="text" name="valor_pago" min="1"  placeholder="Ex: R$30,00" required>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label>Data da entrada</label>
-                <input class="form-control" type="date" name="data" id="data" required>
-            </div>
-        </div>
-        <div class="col-12">
-            <button class="btn btn-success btn-lg btn-block">Salvar</button>
+<div class="card mb-4">
+    <div class="card-body">
+        <div>
+            <h2>Entrada de Estoque</h2>
+            <hr>
+            <form action="/Login/EntradaEstoque" method="POST">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>* Produtos</label>
+                            <select class="form-control" name="produto" required>
+                                {% for produto in produtos %}
+                                <option value="{{produto[0]}}">{{produto[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>* Quantidade</label>
+                            <input class="form-control" type="number" name="quantidade" min=1 placeholder="Ex: 3" required>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>* Valor Pago</label>
+                            <input class='form-control' type="text" name="valor_pago" min="1" placeholder="Ex: R$30,00"
+                                required>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>* Data da entrada</label>
+                            <input class="form-control" type="date" name="data" id="data" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-success btn-lg btn-block">Salvar</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+</p>
+<div class="card mb-4" style="margin-top: 0.7cm;">
+    <div class="card-body">
+        <h2>Cadastrar Produto</h2>
+        <hr />
+        <form action='/Login/CadastrarProduto' method="POST">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="cadastroProdutoInput1">* Produto</label>
+                    <input type="text" name="nome_produto" class="form-control" id="cadastroProdutoInput1"
+                        placeholder="Digite o nome do produto" required>
+                </div>
+                <div class="form-group col-4">
+                    <label for="valorInput3">* Valor</label>
+                    <input type="text" name="valor_produto" class="form-control" id="ValorInput3"
+                        placeholder="Digite o valor do produto" required>
+                </div>
+                <div style="margin-top: 0.85cm;">
+                    <button type="submit" class="btn btn-success">Cadastrar </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="col-md-12">
     {% for message in get_flashed_messages() %}
 
-    <p><div class="alert alert-success">{{ message }}</div></p>
+    <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
+</div>
 
-    <script src="{{url_for('static', filename='js/DateStock.js')}}"></script>
-    {% endblock conteudo %}
-</form>
+<script src="{{url_for('static', filename='js/DateStock.js')}}"></script>
+{% endblock conteudo %}
