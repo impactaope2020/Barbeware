@@ -1,0 +1,45 @@
+{% extends 'Layout.htm' %}
+{% block conteudo %}
+
+<form method="POST">
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label>Produtos</label>
+                <select class="form-control" name="produto" required>
+                    {% for produto in produtos %}
+                    <option value="{{produto[0]}}">{{produto[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Quantidade</label>
+                <input class="form-control" type="number" name="quantidade" min=1 placeholder="Ex: 3" required >
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Valor Pago</label>
+                <input class='form-control' type="text" name="valor_pago" min="1"  placeholder="Ex: R$30,00" required>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label>Data da entrada</label>
+                <input class="form-control" type="date" name="data" id="data" required>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-success btn-lg btn-block">Salvar</button>
+        </div>
+    </div>
+    {% for message in get_flashed_messages() %}
+
+    <p><div class="alert alert-success">{{ message }}</div></p>
+    {% endfor %}
+
+    <script src="{{url_for('static', filename='js/DateStock.js')}}"></script>
+    {% endblock conteudo %}
+</form>

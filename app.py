@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, url_for, redirect, session, jsonify
+from flask import Flask, render_template, request, url_for, redirect, session, jsonify, flash
 from Models.Usuarios import Usuario
 from Models.Client import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
 from Models.Produtos import Produtos
+from Models.EntradaEstoque import EntradaEstoque
 
 app = Flask(__name__)
 
@@ -64,6 +65,7 @@ def PostClient():
     cep = request.form['cep']
     if nome != '' and sobrenome != '':
         Cliente.CadastrarCliente(nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
+        flash("Cliente Cadastrado com Sucesso!")
         return redirect(url_for('ViewClient')) 
 
 
@@ -110,6 +112,7 @@ def CreateUser():
     global nome
     if senha == request.form['senha2']:
         Usuario.CadastrarUsuario(nome1, sobrenome, email, senha, tipo_usuario)
+        flash("Barbeiro cadastrado com Successo!")
         return render_template("ViewUser.htm",usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
     return render_template("ViewUser.htm", mensagem='Senhas divergentes', usuario=nome, titulo="Cadastrar Barbeiro", tipo_usuario=tipo_cliente(id))
 
@@ -148,6 +151,7 @@ def SchedulingBarbeiro(barbeiro_id, data):
             if todos_horarios[3] not in horarios_indisponiveis:
                 horarios_disponiveis.append(todos_horarios[3])
 
+
         return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
     return jsonify({"horarios_agendados": horarios_indisponiveis }, {"horarios_disponiveis": horarios_disponiveis})
      
@@ -160,6 +164,7 @@ def CreateScheduling():
     data = request.form['data']
     horario = request.form['hora']
     Agenda.Agendamento(cliente_id, barbeiro_id, str(data), horario,  1 )
+    flash("Agendamento Efetuado!")
     return redirect(url_for("Scheduling"))
 
 @app.route("/Login/Configurar Agenda")
@@ -188,6 +193,7 @@ def RegisterProduct():
     quantidade_produto = request.form["quantidade_produto"]
     valor_produto = request.form["valor_produto"]
     Produtos.CadastrarProdutos(nome_produto, quantidade_produto, valor_produto)
+    flash("Produto {} cadastrado !".format(nome_produto))
     return redirect(url_for("CreateProduce"))
 
 
@@ -233,6 +239,35 @@ def FilterScheduling(data, id_barbeiro):
     horarios_agendados = [agendamentos for agendamentos in Agenda.SelectAgendamentos(data, id_barbeiro)]
     return jsonify({'Agendamentos': horarios_agendados})
 
+
+@app.route("/Login/EntradaEstoque")
+def EnterStock():
+    return render_template("EnterStock.htm", titulo="Entrada de Estoque", produtos=Produtos.RetornarProdutos(), usuario=nome)
+
+
+@app.route("/Login/EntradaEstoque", methods=['POST'])
+def EnterStockItem():
+    id_produto = request.form['produto']
+    quantidade = request.form['quantidade']
+    valor_pago = request.form['valor_pago']
+    data = request.form['data']
+    EntradaEstoque.ItemEstoque(id_produto, quantidade, valor_pago, data)
+    quantidade_total = 0
+    for qtd in EntradaEstoque.RetornaQuantidade(id_produto):
+        quantidade_total = qtd
+    print(quantidade_total[0])
+    Produtos.AlterarQuantidade(quantidade_total[0], id_produto)
+    flash("Entrada efetuada com sucesso !")
+    return redirect(url_for('EnterStock'))
+
+@app.route("/Login/ListaEntrada/<int:id>")
+def ListEnterStock(id):
+    return render_template('ListEnterStock.htm', usuario=nome, titulo="Entradas do Produto", entradas=EntradaEstoque.RetornarEntradas(id))
+
+@app.route("/Login/ExcluirEntrada/<int:id_entrada>/<int:id_produto>")
+def DeleteEnters(id_entrada, id_produto):
+    EntradaEstoque.DeletarEntrada(id_entrada)
+    return redirect(url_for('ListEnterStock', id=id_produto))
 
 if __name__ == "__main__":
     app.run(debug=True)

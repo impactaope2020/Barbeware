@@ -1,7 +1,9 @@
 {% if tipo_usuario == "Admin" %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
-
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
 <form method="POST">
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -55,6 +57,9 @@
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
     {% block conteudo_barbeiro %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
     <form method="POST">
       <div class="form-row">
         <div class="form-group col-md-6">
