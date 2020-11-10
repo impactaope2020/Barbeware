@@ -61,7 +61,7 @@ class Agenda:
         with sqlite3.connect('Banco.db') as conn:
             cursor = conn.cursor()
             return cursor.execute("""Select  Cliente.nome || ' ' || Cliente.sobrenome, Usuario.nome || ' ' || Usuario.sobrenome,
-                                        agenda_horarios || ' ' || agenda_data, Agenda.id from Agenda inner Join 
+                                        (agenda_horarios || ' ' || substr(Agenda.agenda_data, 9, 2) || substr(Agenda.agenda_data, 5, 4) || substr(Agenda.agenda_data, 1, 4))  , Agenda.id from Agenda inner Join 
                                         Usuario on Usuario.id = Agenda.agenda_codbarbeiro inner join 
                                         Cliente on Cliente.id = Agenda.agenda_codcliente
                                         where agenda_data = ? and agenda_codbarbeiro = ?

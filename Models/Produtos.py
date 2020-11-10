@@ -11,11 +11,11 @@ class Produtos:
             valor_produto real not null
             )""")
 
-    def CadastrarProdutos(nome_produto, quantidade_produto, valor_produto):
+    def CadastrarProdutos(nome_produto, valor_produto):
         with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("""insert into Produtos (nome_produto, quantidade_produto, valor_produto) values (?, ?, ?)""",
-                           (nome_produto, quantidade_produto, valor_produto))
+            cursor.execute("""insert into Produtos (nome_produto, quantidade_produto,  valor_produto) values (?, 0, ?)""",
+                           (nome_produto, valor_produto))
 
     def RetornarProdutos():
         with sqlite3.connect("Banco.db") as conn:
@@ -40,7 +40,13 @@ class Produtos:
                                                 valor_produto = ?
                                                 where id = ?""", (nome_produto, quantidade_produto, valor_produto, id))
 
-    def AlterarQuantidade(quantidade, id_produto):
+    def AlterarQuantidade(id_produto, quantidade):
         with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("update Produtos set quantidade_produto = ? where id = ?", (quantidade, id_produto,))
+            cursor.execute("update Produtos set quantidade_produto = ? where id = ?", (quantidade, id_produto))
+    
+    def RetornarQuantidade(id_produto):
+        with sqlite3.connect('Banco.db') as conn:
+            cursor = conn.cursor()
+            return cursor.execute('Select quantidade_produto from Produtos where id = ?', (id_produto,))
+

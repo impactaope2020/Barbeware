@@ -190,11 +190,10 @@ def CreateProduce():
 @app.route("/Login/CadastrarProduto", methods=["POST"])
 def RegisterProduct():
     nome_produto = request.form["nome_produto"]
-    quantidade_produto = request.form["quantidade_produto"]
     valor_produto = request.form["valor_produto"]
-    Produtos.CadastrarProdutos(nome_produto, quantidade_produto, valor_produto)
+    Produtos.CadastrarProdutos(nome_produto, valor_produto)
     flash("Produto {} cadastrado !".format(nome_produto))
-    return redirect(url_for("CreateProduce"))
+    return redirect(url_for("EnterStock"))
 
 
 @app.route("/Login/Estoque")
@@ -242,7 +241,7 @@ def FilterScheduling(data, id_barbeiro):
 
 @app.route("/Login/EntradaEstoque")
 def EnterStock():
-    return render_template("EnterStock.htm", titulo="Entrada de Estoque", produtos=Produtos.RetornarProdutos(), usuario=nome)
+    return render_template("EnterStock.htm", titulo='Entrada de Produtos ', produtos=Produtos.RetornarProdutos(), usuario=nome)
 
 
 @app.route("/Login/EntradaEstoque", methods=['POST'])
@@ -252,11 +251,13 @@ def EnterStockItem():
     valor_pago = request.form['valor_pago']
     data = request.form['data']
     EntradaEstoque.ItemEstoque(id_produto, quantidade, valor_pago, data)
+
     quantidade_total = 0
     for qtd in EntradaEstoque.RetornaQuantidade(id_produto):
         quantidade_total = qtd
+    
     print(quantidade_total[0])
-    Produtos.AlterarQuantidade(quantidade_total[0], id_produto)
+    Produtos.AlterarQuantidade(id_produto, quantidade_total[0])
     flash("Entrada efetuada com sucesso !")
     return redirect(url_for('EnterStock'))
 
@@ -264,8 +265,17 @@ def EnterStockItem():
 def ListEnterStock(id):
     return render_template('ListEnterStock.htm', usuario=nome, titulo="Entradas do Produto", entradas=EntradaEstoque.RetornarEntradas(id))
 
-@app.route("/Login/ExcluirEntrada/<int:id_entrada>/<int:id_produto>")
-def DeleteEnters(id_entrada, id_produto):
+@app.route("/Login/ExcluirEntrada/<int:id_entrada>/<int:id_produto>/<int:qtd_produto>")
+def DeleteEnters(id_entrada, id_produto, qtd_produto):
+    quantidade_atual = [qtd for qtd in Produtos.RetornarQuantidade(id_produto)]
+
+    atualizar_quantidade = quantidade_atual[0][0] - qtd_produto
+    
+    print(atualizar_quantidade)
+    print(id_produto)
+    Produtos.AlterarQuantidade(id_produto, atualizar_quantidade)
+
+    
     EntradaEstoque.DeletarEntrada(id_entrada)
     return redirect(url_for('ListEnterStock', id=id_produto))
 

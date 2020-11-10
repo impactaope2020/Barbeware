@@ -19,11 +19,12 @@
         <td>{{produtos[1]}}</td>
         <td>{{produtos[2]}}</td>
         <td>R${{produtos[3]}}</td>
-        <td>{{produtos[4]}}</td>
-        <td><a href="{{url_for('DeleteEnters', id_entrada=produtos[0], id_produto=produtos[5])}}" ><button class="btn btn-danger">Excluir</button></a></td>
+        <td>{{produtos[4][8:11]+produtos[4][4:8]+produtos[4][:4]}}</td>
+        <td><a href="{{url_for('DeleteEnters', id_entrada=produtos[0], id_produto=produtos[5], qtd_produto=produtos[2])}}" ><button class="btn btn-danger">Excluir</button></a></td>
         {% endfor %}
     </tbody>
   </table>
+
 
 
 {% endblock conteudo %}

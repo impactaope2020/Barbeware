@@ -33,3 +33,4 @@ class EntradaEstoque:
         with sqlite3.connect('Banco.db') as conn:
             cursor = conn.cursor()
             cursor.execute('Delete from EntradaEstoque where id = ?', (id,))
+    
