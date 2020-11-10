@@ -1,0 +1,29 @@
+{% extends 'Layout.htm' %}
+
+{% block conteudo %}
+<table class="table">
+    <thead class="thead-dark" style="text-align: center;">
+      <tr>
+        <th scope="col">Id Entrada</th>
+        <th scope="col">Produto</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Valor Pago</th>
+        <th scope="col">Data</th>
+        <th scope="col">Editar</th>
+      </tr>
+    </thead>
+    <tbody style="text-align: center;">
+      {% for produtos in entradas %}
+      <tr>
+        <td>{{produtos[0]}}</td>
+        <td>{{produtos[1]}}</td>
+        <td>{{produtos[2]}}</td>
+        <td>R${{produtos[3]}}</td>
+        <td>{{produtos[4]}}</td>
+        <td><a href="{{url_for('DeleteEnters', id_entrada=produtos[0], id_produto=produtos[5])}}" ><button class="btn btn-danger">Excluir</button></a></td>
+        {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock conteudo %}
