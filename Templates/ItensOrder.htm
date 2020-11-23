@@ -1,0 +1,99 @@
+{% if tipo_usuario == "Admin" %}
+{% extends 'Layout.htm'%}
+{% block conteudo %}
+<form method="POST" action="{{url_for('ItensOrderPost', id_pedido=id_pedido, id_cliente=id_cliente)}}">
+    <div class="row">
+        <div class="form-group col-5">
+            <label>Serviço / Produtos</label>
+            <select class="form-control" name="produto" id="produto" required>
+                {% for produto in produtos %}
+                {% if produto[2] > 0 %}
+                <option value="{{produto[0]}}">
+                    {{'Produto: ' + produto[1] + '  /  ' + 'Quantidade: '+ produto[2]|string +  '  /  ' +'Valor: R$ '+ produto[3]|string}}
+                </option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <input type="hidden" name="id_pedido" value="{{id_pedido}}">
+        </div>
+        <div style="margin-top: 0.8cm;">
+            <button type="submit" class="btn btn-success">Adicionar Produto</button>
+            <a href="{{url_for('FinishOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-dark">Finalizar Pedido</button></a>
+        </div>
+        <div style="margin-top: 0.8cm; margin-left: auto;">
+            <b><label>Total</label></b>
+            {% for valor in total %}
+            <input name="total" disabled value="R${{valor[0] or 0}}">
+            {% endfor %}
+        </div>
+
+        <table class="table">
+            <thead class="thead-dark" style="text-align: center;">
+                <tr>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Excluir Item</th>
+                </tr>
+            </thead>
+            {% for item in itens  %}
+            <tbody style="text-align: center;" id="tbody">
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td><a href="{{url_for('DeleteItemOrder', id_item=item[2],  id_pedido=id_pedido, id_cliente=id_cliente)}}"><button type="button"  class="btn btn-danger">Excluir Item</button></a></td>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</form>
+
+{% endblock conteudo %}
+{% else %}
+{% extends "Layout_Barbeiro.htm" %}
+{% block conteudo_barbeiro %}
+<form method="POST" action="{{url_for('ItensOrderPost', id_pedido=id_pedido, id_cliente=id_cliente)}}">
+    <div class="row">
+        <div class="form-group col-5">
+            <label>Serviço / Produtos</label>
+            <select class="form-control" name="produto" id="produto" required>
+                {% for produto in produtos %}
+                {% if produto[2] > 0 %}
+                <option value="{{produto[0]}}">
+                    {{'Produto: ' + produto[1] + '  /  ' + 'Quantidade: '+ produto[2]|string +  '  /  ' +'Valor: R$ '+ produto[3]|string}}
+                </option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <input type="hidden" name="id_pedido" value="{{id_pedido}}">
+        </div>
+        <div style="margin-top: 0.8cm;">
+            <button type="submit" class="btn btn-success">Adicionar Produto</button>
+            <a href="{{url_for('FinishOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-dark">Finalizar Pedido</button></a>
+        </div>
+        <div style="margin-top: 0.8cm; margin-left: auto;">
+            <b><label>Total</label></b>
+            {% for valor in total %}
+            <input name="total" disabled value="R$ {{valor[0]}}">
+            {% endfor %}
+        </div>
+
+        <table class="table">
+            <thead class="thead-dark" style="text-align: center;">
+                <tr>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Excluir Item</th>
+                </tr>
+            </thead>
+            {% for item in itens  %}
+            <tbody style="text-align: center;" id="tbody">
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td><a href="{{url_for('DeleteItemOrder', id_item=item[2],  id_pedido=id_pedido, id_cliente=id_cliente)}}"><button type="button"  class="btn btn-danger">Excluir Item</button></a></td>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</form>
+
+{% endblock conteudo_barbeiro  %}
+{% endif %}

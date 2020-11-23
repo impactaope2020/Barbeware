@@ -50,3 +50,8 @@ class Produtos:
             cursor = conn.cursor()
             return cursor.execute('Select quantidade_produto from Produtos where id = ?', (id_produto,))
 
+    def RetornarValorId(id_produto):
+        with sqlite3.connect('Banco.db') as conn:
+            cursor = conn.cursor()
+            return cursor.execute('Select valor_produto from Produtos where id = ? ', (id_produto, ))
+

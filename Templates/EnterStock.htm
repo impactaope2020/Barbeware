@@ -1,5 +1,9 @@
 {% extends 'Layout.htm' %}
 {% block conteudo %}
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-success">{{ message }}</div>
+{% endfor %}
 <div class="card mb-4">
     <div class="card-body">
         <div>
@@ -20,7 +24,8 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label>* Quantidade</label>
-                            <input class="form-control" type="number" name="quantidade" min=1 placeholder="Ex: 3" required>
+                            <input class="form-control" type="number" name="quantidade" min=1 placeholder="Ex: 3"
+                                required>
                         </div>
                     </div>
                     <div class="col-3">
@@ -37,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-success btn-lg btn-block">Salvar</button>
+                        <button class="btn btn-success btn-lg btn-block">Salvar Entrada</button>
                     </div>
                 </div>
             </form>
@@ -59,20 +64,14 @@
                 <div class="form-group col-4">
                     <label for="valorInput3">* Valor</label>
                     <input type="text" name="valor_produto" class="form-control" id="ValorInput3"
-                        placeholder="Digite o valor do produto" required>
+                        placeholder="Ex: R$5,00" required>
                 </div>
-                <div style="margin-top: 0.85cm;">
-                    <button type="submit" class="btn btn-success">Cadastrar </button>
+                <div class="col-12">
+                    <button class="btn btn-success btn-lg btn-block">Cadastrar Produto</button>
                 </div>
             </div>
         </form>
     </div>
-</div>
-<div class="col-md-12">
-    {% for message in get_flashed_messages() %}
-
-    <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
 </div>
 
 <script src="{{url_for('static', filename='js/DateStock.js')}}"></script>

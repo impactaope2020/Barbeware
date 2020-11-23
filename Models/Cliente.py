@@ -62,4 +62,4 @@ class Cliente:
     def RetornarClienteId(id):
         with sqlite3.connect("Banco.db") as conn:
             cursor = conn.cursor()
-            return cursor.execute("Select nome, sobrenome from Cliente where id = ?", (id,))
+            return cursor.execute("Select nome || ' ' || sobrenome from Cliente where id = ?", (id,))

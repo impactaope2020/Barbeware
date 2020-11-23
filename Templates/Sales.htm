@@ -1,0 +1,37 @@
+{% if tipo_usuario == 'Admin' %}
+{% extends "Layout.htm" %}
+{% block conteudo %}
+<div>
+    <table class="table">
+        <thead class="thead-dark" style="text-align: center;">
+            <tr>
+                <th scope="col">Nome do Cliente</th>
+                <th scope="col">Nome do Barbeiro</th>
+                <th scope="col">Data do Pedido</th>
+                <th scope="col">Total do Pedido</th>
+            </tr>
+        </thead>
+        <form method="POST">
+            {% for pedido in pedidos %}
+            <tbody style="text-align: center;" id="tbody">
+                {% if pedido[6] == 2 %}
+                <td>{{pedido[0]}}</td>
+                <td>{{pedido[1]}}</td>
+                <td>{{pedido[2]}}</td>
+                <td>R$ {{pedido[3]}}</td>
+                {% endif %}
+            </tbody>
+            {% endfor  %}
+        </form>
+    </table>
+</div>
+
+
+{% endblock conteudo %}
+{% else %}
+{% extends "Layout_Barbeiro.htm" %}
+{% block conteudo_barbeiro %}
+
+
+{% endblock conteudo_barbeiro  %}
+{% endif %}
