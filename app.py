@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, url_for, redirect, session, jsonify, flash
 from Models.Usuarios import Usuario
-from Models.Client import Cliente
+from Models.Cliente import Cliente
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
 from Models.Produtos import Produtos
 from Models.EntradaEstoque import EntradaEstoque
+from Models.Pedido import Pedido
+from Models.ItensPedido import ItensPedido
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -76,11 +79,12 @@ def HistoryClient():
 @app.route("/Login/HistoricoCliente/<id>")
 def DeleteClient(id):
     Cliente.ExcluirCliente(id)
+    flash('Cliente deletado com sucesso!')
     return redirect(url_for("HistoryClient"))
 
-@app.route("/Login/HistoricoClienteEditar/<id>")
-def ViewAlterClient(id):
-    return render_template('ViewAlterClient.htm', titulo='Alterar Cliente', Cliente=Cliente.LocalizarCliente(id), usuario=nome, tipo_usuario=tipo_cliente(id))
+@app.route("/Login/HistoricoClienteEditar/<id_cliente>")
+def ViewAlterClient(id_cliente):
+    return render_template('ViewAlterClient.htm', titulo='Alterar Cliente', Cliente=Cliente.LocalizarCliente(id_cliente), usuario=nome, tipo_usuario=tipo_cliente(id))
 
 @app.route("/Login/HistoricoClienteEditar/<id>", methods=["POST"])
 def AlterClient(id):
@@ -95,6 +99,7 @@ def AlterClient(id):
     cep = request.form['cep']
     if nome != '' and sobrenome != '':
         Cliente.AtualizarCliente(id, nome, sobrenome, email, endereco, numero, complemento, cidade, estado, cep)
+        flash("Cliente atualizado com sucesso!")
         return redirect(url_for('HistoryClient'))
 
 
@@ -203,6 +208,7 @@ def Stock():
 @app.route("/Login/Estoque/<int:id>")
 def DeleteProduce(id):
     Produtos.ExcluirProdutoId(id)
+    flash("Produto excluido com sucesso!")
     return redirect(url_for("Stock"))
 
 @app.route("/Login/Estoque/EditarProduto/<int:id>")
@@ -215,13 +221,55 @@ def SaveProduce(id):
     quantidade_produto = request.form["quantidade_produto"]
     valor_produto = request.form["valor_produto"]
     Produtos.AlterarProduto(nome_produto, quantidade_produto, valor_produto, id)
+    flash("Produto atualizado com sucesso!")
     return redirect(url_for("Stock"))
 
 
 @app.route("/Login/Pedido")
 def CreateOrder():
-    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome, clientes=Cliente.RetornarClientes(), produtos=Produtos.RetornarProdutos(), barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id))
+    return render_template("CreateOrder.htm", titulo="Criar Pedido", usuario=nome, clientes=Cliente.RetornarClientes(), produtos=Produtos.RetornarProdutos(), barbeiros=Usuario.RetornarUsuarios(), tipo_usuario=tipo_cliente(id), pedidos=Pedido.RetornarPedidos())
 
+@app.route("/Login/Pedido", methods=['POST'])
+def CreateOrderPost():
+    cliente = request.form['cliente']
+    barbeiro = request.form['barbeiro']
+    data_pedido = datetime.now()
+    Pedido.CriarPedido(cliente, barbeiro, data_pedido, 0, 1)
+    flash('Pedido Criado com Sucesso!')
+    return redirect(url_for('CreateOrder'))
+
+@app.route("/Login/ItensPedido/<int:id_pedido>/<int:id_cliente>")
+def ItensOrder(id_pedido, id_cliente):
+    nome_cliente = [nome for nome in Cliente.RetornarClienteId(id_cliente)]
+    return render_template('ItensOrder.htm',total=ItensPedido.TotalPedido(id_pedido), itens=ItensPedido.RetornarItens(id_pedido),id_cliente=id_cliente, id_pedido = id_pedido ,titulo=nome_cliente[0][0], usuario=nome,  tipo_usuario=tipo_cliente(id), produtos=Produtos.RetornarProdutos())
+
+@app.route("/Login/ItensPedido/<int:id_pedido>/<int:id_cliente>", methods=['POST'])
+def ItensOrderPost(id_pedido, id_cliente):
+    produto_id = request.form['produto']
+    quantidade_produto = [qtd for qtd in Produtos.RetornarQuantidade(produto_id)]
+    Produtos.AlterarQuantidade(produto_id, quantidade_produto[0][0] - 1)
+    valor_produto = [valor for valor in Produtos.RetornarValorId(produto_id)]
+    ItensPedido.InserirItens(id_pedido, produto_id, id_cliente, valor_produto[0][0])
+    total_pedido = [total for total in ItensPedido.TotalPedido(id_pedido)]
+    Pedido.ValorPedido(total_pedido[0][0], id_pedido)
+    return redirect(url_for("ItensOrder", id_pedido=id_pedido, id_cliente=id_cliente))
+
+@app.route('/Login/ItensPedido/<int:id_item>/<int:id_pedido>/<int:id_cliente>')
+def DeleteItemOrder(id_item, id_pedido, id_cliente):
+    id_produto = [id_prod for id_prod in ItensPedido.RetornarIdProduto(id_item)]
+    quantidade_produto = [qtd for qtd in Produtos.RetornarQuantidade(id_produto[0][0])]
+    Produtos.AlterarQuantidade(id_produto[0][0], quantidade_produto[0][0] + 1)
+    ItensPedido.DeletarItem(id_item)
+    total_pedido = [total for total in ItensPedido.TotalPedido(id_pedido)]
+    Pedido.ValorPedido(total_pedido[0][0], id_pedido)
+    return redirect(url_for('ItensOrder', id_pedido=id_pedido, id_cliente=id_cliente))
+
+@app.route('/Login/FinalizarPedido/<int:id_pedido>')
+def FinishOrder(id_pedido):
+    Pedido.FinalizarPedido(id_pedido)
+    flash("Pedido Finalizado com sucesso !")
+    return redirect(url_for('CreateOrder'))
+    
 
 @app.route("/Login/Barbeiro")
 def Barber():
@@ -230,6 +278,7 @@ def Barber():
 @app.route("/Login/Barbeiro/<int:id>")
 def DeletarBarbeiro(id):
     Usuario.DeletarBarbeiroId(id)
+    flash('Barbeiro deletado com sucesso!')
     return redirect(url_for("Barber"))
 
 
@@ -268,16 +317,14 @@ def ListEnterStock(id):
 @app.route("/Login/ExcluirEntrada/<int:id_entrada>/<int:id_produto>/<int:qtd_produto>")
 def DeleteEnters(id_entrada, id_produto, qtd_produto):
     quantidade_atual = [qtd for qtd in Produtos.RetornarQuantidade(id_produto)]
-
     atualizar_quantidade = quantidade_atual[0][0] - qtd_produto
-    
-    print(atualizar_quantidade)
-    print(id_produto)
     Produtos.AlterarQuantidade(id_produto, atualizar_quantidade)
-
-    
     EntradaEstoque.DeletarEntrada(id_entrada)
     return redirect(url_for('ListEnterStock', id=id_produto))
+
+@app.route("/Login/Vendas")
+def Sales():
+    return render_template('Sales.htm', titulo='Vendas', usuario=nome,  tipo_usuario=tipo_cliente(id), pedidos=Pedido.RetornarPedidos() )
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,78 +2,126 @@
 {% if tipo_usuario == 'Admin' %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
-    
-<div class="row">
-    <div class="form-group col-3">
-        <label>Cliente</label>
-        <select class="form-control"  name="cliente" id="cliente" required >
-            {% for cliente in clientes %} 
-            <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group col-3">
-        <label for="">Serviços / Produtos</label>
-        <select class="form-control" name="produtos" id="produtos" required>
-            {% for produto in produtos %}
-            <option value="{{produto[0]}}">{{produto[1]}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group col-3">
-        <label for="">Barbeiro</label>
-        <select class="form-control" name="barbeiro" id="barbeiro">
-            {% for barbeiro in barbeiros%}
-            <option value="{{barbeiro[0]}}">{{barbeiro[1]}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <button style="margin-top: 0.8cm;" class="btn btn-success" type="button">Adicionar Produto</button>
-    </div>
-    <hr>
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    <form method="POST" action="{{url_for('CreateOrderPost')}}">    
+        <div class="row">
+            <div class="form-group col-3">
+                <label>Cliente</label>
+                <select class="form-control"  name="cliente" id="cliente" required >
+                    {% for cliente in clientes %} 
+                    <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label for="">Barbeiro</label>
+                <select class="form-control" name="barbeiro" id="barbeiro">
+                    {% for barbeiro in barbeiros%}
+                    <option value="{{barbeiro[0]}}">{{barbeiro[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button style="margin-top: 0.8cm;" class="btn btn-success" type="submit">Criar Pedido</button>
+            </div>
+            <hr>
+            <div>
+                
+            </div>
+        </div>
+    </form>
     <div>
-        
+        <table class="table">
+            <thead class="thead-dark" style="text-align: center;">
+            <tr>
+                <th scope="col">Nome do Cliente</th>
+                <th scope="col">Barbeiro</th>
+                <th scope="col">Data da Criação do Pedido </th>
+                <th scope="col">Total Pedido</th>
+                <th scope="col">Abrir Pedido</th>
+            </tr>
+            </thead>
+            <form method="POST">
+                {% for pedido in pedidos %}
+                <tbody style="text-align: center;" id="tbody">
+                    {% if pedido[6] == 1 %}
+                    <td>{{pedido[0]}}</td>
+                    <td>{{pedido[1]}}</td>
+                    <td>{{pedido[2]}}</td>
+                    <td>R$ {{pedido[3]}}</td>
+                    <td><a href="{{url_for('ItensOrder', id_pedido=pedido[4], id_cliente=pedido[5])}}"><button class="btn btn-success" type="button">Abrir Pedido</button></a></td>
+                    {% endif %}    
+                </tbody>
+                
+                {% endfor %} 
+            </form>
+        </table>
     </div>
-</div>
-
+    
 {% endblock %}
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
     {% block conteudo_barbeiro %}
-    <div class="row">
-        <div class="form-group col-3">
-            <label>Cliente</label>
-            <select class="form-control"  name="cliente" id="cliente" required >
-                {% for cliente in clientes %} 
-                <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
-                {% endfor %}
-            </select>
+    {% for message in get_flashed_messages() %}
+
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    <form method="POST" action="{{url_for('CreateOrderPost')}}">    
+        <div class="row">
+            <div class="form-group col-3">
+                <label>Cliente</label>
+                <select class="form-control"  name="cliente" id="cliente" required >
+                    {% for cliente in clientes %} 
+                    <option value="{{cliente[0]}}">{{cliente[1] + " " + cliente[2]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label for="">Barbeiro</label>
+                <select class="form-control" name="barbeiro" id="barbeiro">
+                    {% for barbeiro in barbeiros%}
+                    <option value="{{barbeiro[0]}}">{{barbeiro[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button style="margin-top: 0.8cm;" class="btn btn-success" type="submit">Criar Pedido</button>
+            </div>
+            <hr>
+            <div>
+                
+            </div>
         </div>
-        <div class="form-group col-3">
-            <label for="">Serviços / Produtos</label>
-            <select class="form-control" name="produtos" id="produtos" required>
-                {% for produto in produtos %}
-                <option value="{{produto[0]}}">{{produto[1]}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group col-3">
-            <label for="">Barbeiro</label>
-            <select class="form-control" name="barbeiro" id="barbeiro">
-                {% for barbeiro in barbeiros%}
-                <option value="{{barbeiro[0]}}">{{barbeiro[1] + " " + barbeiro[2]}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <button style="margin-top: 0.8cm;" class="btn btn-success" type="button">Adicionar Produto</button>
-        </div>
-        <hr>
-        <div>
-            
-        </div>
+    </form>
+    <div>
+        <table class="table">
+            <thead class="thead-dark" style="text-align: center;">
+            <tr>
+                <th scope="col">Nome do Cliente</th>
+                <th scope="col">Barbeiro</th>
+                <th scope="col">Data da Criação do Pedido </th>
+                <th scope="col">Total Pedido</th>
+                <th scope="col">Abrir Pedido</th>
+            </tr>
+            </thead>
+            <form method="POST">
+                {% for pedido in pedidos %}
+                {% if pedido[6] == 1 %}
+                <tbody style="text-align: center;" id="tbody">
+                    <td>{{pedido[0]}}</td>
+                    <td>{{pedido[1]}}</td>
+                    <td>{{pedido[2]}}</td>
+                    <td>R$ {{pedido[3]}}</td>
+                    <td><a href="{{url_for('ItensOrder', id_pedido=pedido[4], id_cliente=pedido[5])}}"><button class="btn btn-success" type="button">Abrir Pedido</button></a></td>
+                    </tbody>
+                {% endif %}
+                {% endfor %} 
+            </form>
+        </table>
     </div>
+    
 {% endblock %}
 
 {% endif  %}
