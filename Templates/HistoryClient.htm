@@ -1,6 +1,11 @@
 {% if tipo_usuario == "Admin" %}
 {% extends "Layout.htm" %}
 {% block conteudo %}
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-success">{{ message }}</div>
+
+{% endfor %}
 <table class="table">
   <thead class="thead-dark" style="text-align: center;">
     <tr>
@@ -22,39 +27,20 @@
       <td>{{Cliente[3]}}</td>
       <td>{{Cliente[4]}}</td>
       <td>{{Cliente[5]}}</td>
-      <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-          Excluir
-        </button>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                Deseja realmente excluir o cliente ?
-              </div>
-              <div class="modal-footer">
-                
-                <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Sair</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-        {% endfor %}
+      <td><a href="{{url_for('ViewAlterClient', id_cliente=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
+        <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a></td>
+      {% endfor %}
   </tbody>
 </table>
 {% endblock conteudo %}
 {% else %}
 {% extends "Layout_Barbeiro.htm" %}
 {% block conteudo_barbeiro %}
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-success">{{ message }}</div>
+
+{% endfor %}
 <table class="table">
   <thead class="thead-dark" style="text-align: center;">
     <tr>
@@ -76,32 +62,9 @@
       <td>{{Cliente[3]}}</td>
       <td>{{Cliente[4]}}</td>
       <td>{{Cliente[5]}}</td>
-      <td><a href="{{url_for('ViewAlterClient', id=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-          Excluir
-        </button>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Excluir</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                Deseja realmente excluir o cliente ?
-              </div>
-              <div class="modal-footer">
-                <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Sair</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-        {% endfor %}
+      <td><a href="{{url_for('ViewAlterClient', id_cliente=Cliente[0])}}"><button class="btn btn-dark">Editar</button></a>
+        <a href="{{url_for('DeleteClient', id=Cliente[0])}}"><button class="btn btn-danger">Excluir</button></a></td>
+      {% endfor %}
   </tbody>
 </table>
 {% endblock %}

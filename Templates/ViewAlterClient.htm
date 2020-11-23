@@ -1,6 +1,11 @@
 {% if tipo_usuario == "Admin" %}
     {% extends "Layout.htm" %}
     {% block conteudo %}
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-success">{{ message }}</div>
+
+{% endfor %}
 <form method="POST">
     {% for dados in Cliente %}
     <div class="form-row">
@@ -45,7 +50,7 @@
       </div>
       <div class="form-group col-md-2">
         <label for="inputCEP">CEP</label>
-        <input name="cep" type="text" class="form-control" id="inputCEP">
+        <input name="cep" type="text" class="form-control" id="inputCEP" value="{{dados[9]}}">
       </div>
     </div>
     <button type="submit" class="btn btn-success">Salvar</button>
@@ -53,10 +58,16 @@
   </form>
   
 
-  {% endblock %}
+{% endblock conteudo %}
 {% else %}
     {% extends "Layout_Barbeiro.htm" %}
     {% block conteudo_barbeiro %}
+
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-success">{{ message }}</div>
+
+{% endfor %}
 
     <form method="POST">
       {% for dados in Cliente %}
@@ -102,12 +113,12 @@
         </div>
         <div class="form-group col-md-2">
           <label for="inputCEP">CEP</label>
-          <input name="cep" type="text" class="form-control" id="inputCEP">
+          <input name="cep" type="text" class="form-control" id="inputCEP" value="{{dados[9]}}">
         </div>
       </div>
       <button type="submit" class="btn btn-success">Salvar</button>
     </form>
     {% endfor %}
-  {% endblock %}
-    
+  {% endblock  conteudo_barbeiro %}
+     
 {% endif %}
