@@ -8,7 +8,7 @@ class Pedido:
             id_cliente integer not null,
             id_barbeiro integer not null,
             data_pedido varchar(20) not null,
-            total_pedido varchar(20) not null,
+            total_pedido varchar(20),
             status_pedido integer not null
         )""")
 

@@ -1,19 +1,12 @@
 from Models.Agenda import Agenda
 from Models.ConfigAgenda import ConfigAgenda
 from Models.Usuarios import Usuario
-<<<<<<< HEAD
 from Models.EntradaEstoque import EntradaEstoque
 from Models.Client import Cliente
 from Models.Produtos import Produtos
-=======
-from Models.Produtos import Produtos
-from Models.Cliente import Cliente
->>>>>>> 8764c4abbcf2b3bada25ccc265c1274f900e9ee6
-import datetime 
-import sqlite3
 
 
-<<<<<<< HEAD
+
 
 """Cadastrar Produtos  """
 Produtos.CadastrarProdutos('Navalha', '1,00')
@@ -60,5 +53,3 @@ Usuario.CadastrarUsuario('Barbeiro', 'Arthur', 'Felix', 'arthur.felix@faculdadei
 
 '''Configuração da Agenda'''
 
-
->>>>>>> 8764c4abbcf2b3bada25ccc265c1274f900e9ee6
