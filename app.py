@@ -257,6 +257,7 @@ def ItensOrderPost(id_pedido, id_cliente):
 @app.route('/Login/ItensPedido/<int:id_item>/<int:id_pedido>/<int:id_cliente>')
 def DeleteItemOrder(id_item, id_pedido, id_cliente):
     id_produto = [id_prod for id_prod in ItensPedido.RetornarIdProduto(id_item)]
+    print(id_produto)
     quantidade_produto = [qtd for qtd in Produtos.RetornarQuantidade(id_produto[0][0])]
     Produtos.AlterarQuantidade(id_produto[0][0], quantidade_produto[0][0] + 1)
     ItensPedido.DeletarItem(id_item)
