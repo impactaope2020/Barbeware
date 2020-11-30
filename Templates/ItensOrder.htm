@@ -19,6 +19,7 @@
         <div style="margin-top: 0.8cm;">
             <button type="submit" class="btn btn-success">Adicionar Produto</button>
             <a href="{{url_for('FinishOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-dark">Finalizar Pedido</button></a>
+            <a href="{{url_for('DeleteOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-danger">Excluir</button></a>
         </div>
         <div style="margin-top: 0.8cm; margin-left: auto;">
             <b><label>Total</label></b>
@@ -68,11 +69,12 @@
         <div style="margin-top: 0.8cm;">
             <button type="submit" class="btn btn-success">Adicionar Produto</button>
             <a href="{{url_for('FinishOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-dark">Finalizar Pedido</button></a>
+            <a href="{{url_for('DeleteOrder', id_pedido=id_pedido)}}"><button type="button" class="btn btn-danger">Excluir</button></a>
         </div>
         <div style="margin-top: 0.8cm; margin-left: auto;">
             <b><label>Total</label></b>
             {% for valor in total %}
-            <input name="total" disabled value="R$ {{valor[0]}}">
+            <input name="total" disabled value="R$ {{valor[0] or 0}}">
             {% endfor %}
         </div>
 

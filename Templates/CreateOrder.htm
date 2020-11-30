@@ -50,7 +50,7 @@
                     <td>{{pedido[0]}}</td>
                     <td>{{pedido[1]}}</td>
                     <td>{{pedido[2]}}</td>
-                    <td>R$ {{pedido[3]}}</td>
+                    <td>R$ {{pedido[3] or 0}}</td>
                     <td><a href="{{url_for('ItensOrder', id_pedido=pedido[4], id_cliente=pedido[5])}}"><button class="btn btn-success" type="button">Abrir Pedido</button></a></td>
                     {% endif %}    
                 </tbody>
@@ -113,7 +113,7 @@
                     <td>{{pedido[0]}}</td>
                     <td>{{pedido[1]}}</td>
                     <td>{{pedido[2]}}</td>
-                    <td>R$ {{pedido[3]}}</td>
+                    <td>R$ {{pedido[3] or 0}}</td>
                     <td><a href="{{url_for('ItensOrder', id_pedido=pedido[4], id_cliente=pedido[5])}}"><button class="btn btn-success" type="button">Abrir Pedido</button></a></td>
                     </tbody>
                 {% endif %}
