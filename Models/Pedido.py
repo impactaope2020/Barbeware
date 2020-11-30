@@ -38,3 +38,8 @@ class Pedido:
         with sqlite3.connect('Banco.db') as conn:
             cursor = conn.cursor()
             cursor.execute('update Pedido set status_pedido =  2 where id = ?', (id_pedido, ))
+    
+    def DeletarVenda(id_pedido):
+        with sqlite3.connect('Banco.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('Delete from Pedido where id = ?', (id_pedido,))

@@ -327,6 +327,12 @@ def DeleteEnters(id_entrada, id_produto, qtd_produto):
 def Sales():
     return render_template('Sales.htm', titulo='Vendas', usuario=nome,  tipo_usuario=tipo_cliente(id), pedidos=Pedido.RetornarPedidos() )
 
+@app.route("/Login/DeletarVendas/<int:id_pedido>")
+def DeleteOrder(id_pedido):
+    Pedido.DeletarVenda(id_pedido)
+    flash('Pedido Excluido!')
+    return redirect(url_for('CreateOrder'))
+
 if __name__ == "__main__":
     app.run(debug=True)
 
