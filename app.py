@@ -8,7 +8,7 @@ from Models.EntradaEstoque import EntradaEstoque
 from Models.Pedido import Pedido
 from Models.ItensPedido import ItensPedido
 from datetime import datetime
-
+import os 
 app = Flask(__name__)
 
 app.secret_key = 'a1b2c3' 
@@ -334,5 +334,6 @@ def DeleteOrder(id_pedido):
     return redirect(url_for('CreateOrder'))
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
