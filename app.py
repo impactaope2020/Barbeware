@@ -25,7 +25,7 @@ def tipo_cliente(id):
 @app.route("/Login")
 def IndexLogin():
     session['usuario_logado'] = None
-    return render_template("Login.html", titulo="Login")
+    return render_template("Login.htm", titulo="Login")
 
 @app.route("/", methods=["POST"])
 @app.route("/Login", methods=["POST"])
