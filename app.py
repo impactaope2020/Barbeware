@@ -334,5 +334,5 @@ def DeleteOrder(id_pedido):
     return redirect(url_for('CreateOrder'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
 
