@@ -9,7 +9,7 @@ from Models.Pedido import Pedido
 from Models.ItensPedido import ItensPedido
 from datetime import datetime
 import os 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='template')
 
 app.secret_key = 'a1b2c3' 
 
